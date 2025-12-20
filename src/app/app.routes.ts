@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
-import { ImprintComponent } from '../pages/imprint';
-import { IndexComponent } from '../pages/index';
-import { PrivacyPolicyComponent } from '../pages/privacy-policy';
-import { DisclaimerComponent } from '../pages/disclaimer';
+import { ImprintComponent } from './imprint/imprint.component';
+import { HomeComponent } from './home/home.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { DisclaimerComponent } from './disclaimer/disclaimer.component';
 
 export const routes: Routes = [
-  { path: '', component: IndexComponent },
+  { path: '', component: HomeComponent },
   { path: 'impressum', component: ImprintComponent },
   { path: 'datenschutz', component: PrivacyPolicyComponent },
   { path: 'haftungsausschluss', component: DisclaimerComponent },

@@ -1,10 +1,10 @@
 import { computed, Injectable, signal } from '@angular/core';
-import { TAXES_RATES_2026 } from '../util/taxes-rates';
+import { TAXES_RATES_2026 } from './taxes-rates';
 
 @Injectable({
   providedIn: 'root',
 })
-export class TaxCalculatorService {
+export class CalculatorService {
   private readonly taxesRates = TAXES_RATES_2026;
 
   grossSalary = signal<number | undefined>(undefined);

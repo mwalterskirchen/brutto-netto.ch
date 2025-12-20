@@ -17,4 +17,4 @@ import { RouterLink } from '@angular/router';
     </footer>
   `,
 })
-export class Footer {}
+export class FooterComponent {}

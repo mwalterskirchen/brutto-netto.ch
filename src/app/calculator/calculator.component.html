@@ -1,0 +1,114 @@
+<section class="max-w-md mx-auto mb-8" aria-label="Lohnrechner">
+  <div class="max-w-md mx-auto">
+    <fieldset class="space-y-2">
+      <label for="grossSalary">Bruttolohn in CHF pro Monat</label>
+      <input
+        type="number"
+        id="grossSalary"
+        class="input input-bordered w-full"
+        min="1"
+        [(ngModel)]="calculatorService.grossSalary"
+        placeholder="CHF pro Monat"
+      />
+      <label for="age">Alter</label>
+      <input
+        type="number"
+        id="age"
+        placeholder="Alter in Jahren"
+        min="18"
+        max="65"
+        class="input input-bordered w-full"
+        [(ngModel)]="calculatorService.age"
+      />
+    </fieldset>
+    <div class="form-control mt-4">
+      <label class="label cursor-pointer flex items-center gap-2 w-full justify-between">
+        <span class="label-text">13. Monatslohn</span>
+        <input
+          type="checkbox"
+          class="toggle"
+          [(ngModel)]="calculatorService.thirteenthSalaryEnabled"
+        />
+      </label>
+    </div>
+    <div class="form-control mt-4">
+      <label class="label cursor-pointer flex items-center gap-2 w-full justify-between">
+        <span class="label-text">Krankentaggeldversicherung</span>
+        <input type="checkbox" class="toggle" [(ngModel)]="calculatorService.ktgEnabled" />
+      </label>
+    </div>
+  </div>
+  <div class="mt-4 p-4 bg-base-200 rounded-lg">
+    <p class="net-salary text-2xl font-bold text-center">
+      Nettolohn:
+      {{ calculatorService.netSalary() | currency }}
+    </p>
+  </div>
+  <div class="mt-4 p-4 bg-base-200 rounded-lg">
+    <h3 class="text-lg font-semibold mb-2">
+      Summe der Abzüge: @if (calculatorService.totalContributions() > 0) {
+      {{ calculatorService.totalContributions() | currency }} ({{
+        calculatorService.totalContributionsPercentage() | percent : '1.2-2'
+      }}) }
+    </h3>
+    <table class="table table-zebra text-sm">
+      <tbody>
+        <tr>
+          <th>AHV/IV/EO Beiträge</th>
+          <td>
+            {{
+              calculatorService.ahvIvEoContributions() === 0 ||
+              calculatorService.ahvIvEoContributions() == null
+                ? '-'
+                : (calculatorService.ahvIvEoContributions() | currency)
+            }}
+          </td>
+        </tr>
+        <tr>
+          <th>Pensionskasse (BVG) Beiträge</th>
+          <td>
+            {{
+              calculatorService.bvgContributions() === 0 ||
+              calculatorService.bvgContributions() == null
+                ? '-'
+                : (calculatorService.bvgContributions() | currency)
+            }}
+          </td>
+        </tr>
+        <tr>
+          <th>ALV Beiträge</th>
+          <td>
+            {{
+              calculatorService.alvContributions() === 0 ||
+              calculatorService.alvContributions() == null
+                ? '-'
+                : (calculatorService.alvContributions() | currency)
+            }}
+          </td>
+        </tr>
+        <tr>
+          <th>NBU Beiträge</th>
+          <td>
+            {{
+              calculatorService.nbuContributions() === 0 ||
+              calculatorService.nbuContributions() == null
+                ? '-'
+                : (calculatorService.nbuContributions() | currency)
+            }}
+          </td>
+        </tr>
+        <tr>
+          <th>KTG Beiträge</th>
+          <td>
+            {{
+              calculatorService.ktgContributions() === 0 ||
+              calculatorService.ktgContributions() == null
+                ? '-'
+                : (calculatorService.ktgContributions() | currency)
+            }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
