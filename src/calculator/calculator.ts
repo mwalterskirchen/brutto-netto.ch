@@ -15,6 +15,7 @@ import { CurrencyPipe, PercentPipe } from '@angular/common';
             type="number"
             id="grossSalary"
             class="input input-bordered w-full"
+            min="1"
             [(ngModel)]="taxCalculatorService.grossSalary"
             placeholder="CHF pro Monat"
           />
@@ -23,6 +24,8 @@ import { CurrencyPipe, PercentPipe } from '@angular/common';
             type="number"
             id="age"
             placeholder="Alter in Jahren"
+            min="18"
+            max="65"
             class="input input-bordered w-full"
             [(ngModel)]="taxCalculatorService.age"
           />
@@ -45,7 +48,7 @@ import { CurrencyPipe, PercentPipe } from '@angular/common';
         </div>
       </div>
       <div class="mt-4 p-4 bg-base-200 rounded-lg">
-        <p class="text-2xl font-bold text-center">
+        <p class="net-salary text-2xl font-bold text-center">
           Nettolohn:
           {{ taxCalculatorService.netSalary() | currency }}
         </p>
