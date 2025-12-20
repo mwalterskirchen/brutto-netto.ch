@@ -1,11 +1,11 @@
 import { computed, Injectable, signal } from '@angular/core';
-import { TAXES_RATES_2026 } from './taxes-rates';
+import { DEDUCTION_RATES_2026 } from './deduction-rates';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CalculatorService {
-  private readonly taxesRates = TAXES_RATES_2026;
+  private readonly deductionRates = DEDUCTION_RATES_2026;
 
   grossSalary = signal<number | undefined>(undefined);
   age = signal<number | undefined>(undefined);
@@ -24,7 +24,7 @@ export class CalculatorService {
   );
 
   ahvIvEoContributions = computed<number>(() =>
-    this.grossSalary() ? this.grossSalary()! * this.taxesRates.socialSecurity.ahvIvEo.rate : 0
+    this.grossSalary() ? this.grossSalary()! * this.deductionRates.socialSecurity.ahvIvEo.rate : 0
   );
   /**
    * ALV contributions with solidarity rate for high earners
@@ -37,27 +37,28 @@ export class CalculatorService {
 
     const numberOfSalaries = this.thirteenthSalaryEnabled() ? 13 : 12;
     const annualGross = monthlyGross * numberOfSalaries;
-    const monthlyThreshold = this.taxesRates.socialSecurity.alv.annualThreshold / numberOfSalaries;
+    const monthlyThreshold =
+      this.deductionRates.socialSecurity.alv.annualThreshold / numberOfSalaries;
 
-    if (annualGross <= this.taxesRates.socialSecurity.alv.annualThreshold) {
+    if (annualGross <= this.deductionRates.socialSecurity.alv.annualThreshold) {
       // Standard rate only
-      return monthlyGross * this.taxesRates.socialSecurity.alv.standardRate;
+      return monthlyGross * this.deductionRates.socialSecurity.alv.standardRate;
     } else {
       // Standard rate on income up to threshold + solidarity rate on income above
       const standardContribution =
-        monthlyThreshold * this.taxesRates.socialSecurity.alv.standardRate;
+        monthlyThreshold * this.deductionRates.socialSecurity.alv.standardRate;
       const solidarityContribution =
-        (monthlyGross - monthlyThreshold) * this.taxesRates.socialSecurity.alv.solidarityRate;
+        (monthlyGross - monthlyThreshold) * this.deductionRates.socialSecurity.alv.solidarityRate;
       return standardContribution + solidarityContribution;
     }
   });
   nbuContributions = computed<number>(() =>
-    this.grossSalary() ? this.grossSalary()! * this.taxesRates.nbu.rate : 0
+    this.grossSalary() ? this.grossSalary()! * this.deductionRates.nbu.rate : 0
   );
 
   ktgContributions = computed<number>(() => {
     if (!this.ktgEnabled()) return 0;
-    return this.grossSalary() ? this.grossSalary()! * this.taxesRates.ktg.rate : 0;
+    return this.grossSalary() ? this.grossSalary()! * this.deductionRates.ktg.rate : 0;
   });
 
   /**
@@ -77,20 +78,21 @@ export class CalculatorService {
     const annualGross = monthlyGross * numberOfSalaries;
 
     // Check if salary meets BVG entry threshold (annual)
-    if (annualGross < this.taxesRates.bvg.thresholds.entryThreshold) {
+    if (annualGross < this.deductionRates.bvg.thresholds.entryThreshold) {
       return 0; // No BVG contributions below entry threshold
     }
 
     // Calculate coordinated salary (annual)
-    const annualCoordinated = annualGross - this.taxesRates.bvg.thresholds.coordinationDeduction;
+    const annualCoordinated =
+      annualGross - this.deductionRates.bvg.thresholds.coordinationDeduction;
 
     // Apply minimum and maximum limits (annual)
     let finalAnnualCoordinated = annualCoordinated;
-    if (annualCoordinated < this.taxesRates.bvg.thresholds.minimumInsured) {
-      finalAnnualCoordinated = this.taxesRates.bvg.thresholds.minimumInsured;
+    if (annualCoordinated < this.deductionRates.bvg.thresholds.minimumInsured) {
+      finalAnnualCoordinated = this.deductionRates.bvg.thresholds.minimumInsured;
     }
-    if (annualCoordinated > this.taxesRates.bvg.thresholds.maximumInsured) {
-      finalAnnualCoordinated = this.taxesRates.bvg.thresholds.maximumInsured;
+    if (annualCoordinated > this.deductionRates.bvg.thresholds.maximumInsured) {
+      finalAnnualCoordinated = this.deductionRates.bvg.thresholds.maximumInsured;
     }
 
     // Return monthly coordinated salary (spread across number of salaries)
@@ -99,7 +101,7 @@ export class CalculatorService {
 
   bvgContributionRate = computed<number>(
     () =>
-      this.taxesRates.bvg.contributionRates.find(
+      this.deductionRates.bvg.contributionRates.find(
         (rate) => this.age()! >= rate.minAge && this.age()! <= rate.maxAge
       )?.employeeShare ?? 0
   );

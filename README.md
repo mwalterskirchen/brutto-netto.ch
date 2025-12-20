@@ -22,7 +22,7 @@ A free online salary calculator for Switzerland that calculates your **net salar
 | **NBU**       | Non-occupational accident insurance (~1%)                             |
 | **KTG**       | Daily sickness benefit insurance (~0.8%, optional)                    |
 
-Tax rates are updated for **2026**.
+Rates are updated for **2026**.
 
 ## Tech Stack
 
@@ -47,18 +47,6 @@ npm run build
 
 # Deploy to Cloudflare Pages
 npm run deploy
-```
-
-## Project Structure
-
-```
-src/
-├── app/              # App config and routing
-├── calculator/       # Main calculator component
-├── footer/           # Footer component
-├── pages/            # Static pages (imprint, privacy, disclaimer)
-├── services/         # Tax calculation logic
-└── util/             # Tax rates configuration
 ```
 
 ## License

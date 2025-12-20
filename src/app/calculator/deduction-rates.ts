@@ -10,7 +10,7 @@
  * Next Review: December 2026
  */
 
-export const TAXES_RATES_2026 = {
+export const DEDUCTION_RATES_2026 = {
   /**
    * Social Security Contributions (Employee Share)
    * These are mandatory for all employees in Switzerland
