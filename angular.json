@@ -7,6 +7,9 @@
   "newProjectRoot": "projects",
   "projects": {
     "brutto-netto.ch": {
+      "i18n": {
+        "sourceLocale": "de-CH"
+      },
       "projectType": "application",
       "schematics": {},
       "root": "",

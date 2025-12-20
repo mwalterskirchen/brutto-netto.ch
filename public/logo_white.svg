@@ -1,0 +1,13 @@
+<svg width="600" height="200" viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="600" height="200" fill="none" />
+  
+  <text x="50" y="115" font-family="Arial, sans-serif" font-weight="bold" font-size="64" fill="white">brutto</text>
+  
+  <circle cx="260" cy="95" r="22" fill="#e30613" />
+  <rect x="256" y="83" width="8" height="24" fill="white" />
+  <rect x="248" y="91" width="24" height="8" fill="white" />
+  
+<path d="M290 95 L315 95 M310 90 L315 95 L310 100" stroke="white" stroke-width="2" fill="none" />
+  
+  <text x="325" y="115" font-family="Arial, sans-serif" font-weight="bold" font-size="64" fill="white">netto.ch</text>
+</svg>
