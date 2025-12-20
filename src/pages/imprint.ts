@@ -5,7 +5,15 @@ import { Component } from '@angular/core';
   imports: [],
   template: `
     <h2 class="text-2xl font-bold mb-4">Impressum</h2>
-    <p>Maximilian Walterskirchen</p>
+    <address>
+      <strong>Maximilian Walterskirchen</strong><br />
+      c/o F2BII E-Commerce#296<br />
+      Hintergoldingerstrasse 30<br />
+      8638 Goldingen<br />
+    </address>
+    <a href="mailto:contact@mwalterskirchen.dev" class="link link-primary"
+      >contact@mwalterskirchen.dev</a
+    >
   `,
 })
 export class ImprintComponent {}
