@@ -1,59 +1,66 @@
-# BruttoNettoCh
+# Brutto Netto Rechner Schweiz 🇨🇭
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.3.
+A free online salary calculator for Switzerland that calculates your **net salary** from your **gross salary**, accounting for all Swiss social security deductions.
 
-## Development server
+**Live site:** [brutto-netto.ch](https://brutto-netto.ch)
 
-To start a local development server, run:
+## Features
 
-```bash
-ng serve
-```
+- Calculate net salary from gross monthly salary
+- Support for 13th month salary (Dreizehnter Monatslohn)
+- Age-based pension fund (BVG) contribution rates
+- Optional daily sickness benefit insurance (KTG)
+- All deductions itemized with percentages
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### Deductions Calculated
 
-## Code scaffolding
+| Deduction     | Description                                                           |
+| ------------- | --------------------------------------------------------------------- |
+| **AHV/IV/EO** | Old-age, disability & income compensation insurance (5.3%)            |
+| **ALV**       | Unemployment insurance (1.1%, with solidarity rate above CHF 148,200) |
+| **BVG**       | Occupational pension fund (age-dependent, 0.8% – 10.1%)               |
+| **NBU**       | Non-occupational accident insurance (~1%)                             |
+| **KTG**       | Daily sickness benefit insurance (~0.8%, optional)                    |
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Tax rates are updated for **2026**.
 
-```bash
-ng generate component component-name
-```
+## Tech Stack
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- **Angular 21** with SSR/prerendering
+- **Tailwind CSS 4** + **DaisyUI 5**
+- **Cloudflare Pages** for hosting
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Development
 
 ```bash
-ng test
+# Install dependencies
+npm install
+
+# Start dev server (http://localhost:4200)
+npm start
+
+# Run tests
+npm test
+
+# Build for production
+npm run build
+
+# Deploy to Cloudflare Pages
+npm run deploy
 ```
 
-## Running end-to-end tests
+## Project Structure
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
+```
+src/
+├── app/              # App config and routing
+├── calculator/       # Main calculator component
+├── footer/           # Footer component
+├── pages/            # Static pages (imprint, privacy, disclaimer)
+├── services/         # Tax calculation logic
+└── util/             # Tax rates configuration
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## License
 
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+MIT

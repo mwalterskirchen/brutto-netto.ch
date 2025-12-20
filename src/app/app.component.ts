@@ -1,10 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet, RouterLink } from '@angular/router';
-import { Footer } from '../footer/footer';
+import { FooterComponent } from './footer/footer.component';
 
 @Component({
   selector: 'app-root',
-  imports: [Footer, RouterOutlet, RouterLink],
+  imports: [FooterComponent, RouterOutlet, RouterLink],
   template: `
     <div class="container mx-auto p-4 min-h-screen flex flex-col gap-6">
       <header class="text-center mb-2">
