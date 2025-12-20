@@ -15,11 +15,15 @@ import { FooterComponent } from './footer/footer.component';
           </picture>
         </a>
         <h1 class="sr-only">Brutto Netto Lohnrechner Schweiz 2026</h1>
-        <p class="text-lg max-w-3xl mx-auto">
-          Berechnen Sie Ihren <strong>Nettolohn</strong> aus dem <strong>Bruttolohn</strong> mit
-          allen Schweizer Abzügen (AHV, IV, EO, ALV, BVG, NBU). Kostenloser Online-Lohnrechner
-          <strong>2026</strong>.
+        <p class="text-lg max-w-3xl mx-auto mb-4">
+          Wieviel bleibt von Ihrem Lohn? <br />
+          Berechnen Sie Ihren <strong>Nettolohn</strong>: schnell, präzise und ohne Datenweitergabe.
         </p>
+        <div class="flex flex-wrap justify-center gap-2 text-sm">
+          <span class="badge badge-outline p-4 gap-1">🔒 100% privat</span>
+          <span class="badge badge-outline p-4 gap-1">📖 Open Source</span>
+          <span class="badge badge-outline p-4 gap-1">✨ Kostenlos</span>
+        </div>
       </header>
 
       <main class="flex-1">
