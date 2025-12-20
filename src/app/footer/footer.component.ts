@@ -12,7 +12,7 @@ import { RouterLink } from '@angular/router';
         <a [routerLink]="['/haftungsausschluss']">Haftungsausschluss</a>
       </div>
       <div class="flex items-center gap-3">
-        <p>Mit ❤️ us Züri für d'Schwiz 🇨🇭</p>
+        <p>Mit ❤️ us de Schwiz für d'Schwiz 🇨🇭</p>
         <a
           href="https://github.com/mwalterskirchen/brutto-netto.ch"
           target="_blank"
