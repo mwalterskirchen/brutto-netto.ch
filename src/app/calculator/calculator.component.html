@@ -1,15 +1,31 @@
 <section class="max-w-md mx-auto mb-8" aria-label="Lohnrechner">
   <div class="max-w-md mx-auto">
-    <fieldset class="space-y-2">
-      <label for="grossSalary">Bruttolohn in CHF pro Monat</label>
+    <div role="tablist" class="tabs tabs-box mb-4">
+      <a
+        role="tab"
+        class="tab flex-1 {{ currentTab() === SalaryFrequency.MONTHLY ? 'tab-active' : '' }}"
+        (click)="onTabChange(SalaryFrequency.MONTHLY)"
+        >Monatlich</a
+      >
+      <a
+        role="tab"
+        class="tab flex-1 {{ currentTab() === SalaryFrequency.ANNUAL ? 'tab-active' : '' }}"
+        (click)="onTabChange(SalaryFrequency.ANNUAL)"
+        >Jährlich</a
+      >
+    </div>
+    <fieldset class="fieldset">
+      <label for="grossSalary">Bruttolohn in CHF</label>
       <input
         type="number"
         id="grossSalary"
         class="input input-bordered w-full"
         min="1"
         [(ngModel)]="calculatorService.grossSalary"
-        placeholder="CHF pro Monat"
+        placeholder="Bruttolohn"
       />
+    </fieldset>
+    <fieldset class="fieldset">
       <label for="age">Alter</label>
       <input
         type="number"

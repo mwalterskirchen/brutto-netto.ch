@@ -1,5 +1,6 @@
 import { computed, Injectable, signal } from '@angular/core';
 import { DEDUCTION_RATES_2026 } from './deduction-rates';
+import { SalaryFrequency } from '../shared/enums/salary-frequency.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -7,6 +8,7 @@ import { DEDUCTION_RATES_2026 } from './deduction-rates';
 export class CalculatorService {
   private readonly deductionRates = DEDUCTION_RATES_2026;
 
+  salaryFrequency = signal<SalaryFrequency>(SalaryFrequency.MONTHLY);
   grossSalary = signal<number | undefined>(undefined);
   age = signal<number | undefined>(undefined);
   ktgEnabled = signal<boolean>(false);
