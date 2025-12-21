@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://brutto-netto.ch/sitemap.xml
+

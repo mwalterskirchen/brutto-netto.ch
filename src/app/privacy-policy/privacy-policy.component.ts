@@ -87,7 +87,7 @@ import { RouterLink } from '@angular/router';
         <h3 class="text-lg font-semibold mb-2">Kontakt</h3>
         <p class="text-base-content/80 leading-relaxed">
           Bei Fragen zum Datenschutz können Sie uns jederzeit kontaktieren. Die Kontaktdaten finden
-          Sie im <a routerLink="/imprint" class="link link-primary">Impressum</a>.
+          Sie im <a routerLink="/impressum" class="link link-primary">Impressum</a>.
         </p>
       </section>
 

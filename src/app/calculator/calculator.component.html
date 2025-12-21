@@ -69,7 +69,7 @@
     </p>
   </div>
   <div class="mt-4 p-4 bg-base-200 rounded-lg">
-    <h3 class="text-lg font-semibold mb-2">
+    <h3 class="text-base font-semibold mb-2">
       {{ currentTab() === SalaryFrequency.MONTHLY ? 'Monatliche Abzüge:' : 'Jährliche Abzüge:' }}
       @if (calculatorService.totalContributions() > 0) {
       {{ calculatorService.totalContributions() | currency }} ({{
@@ -79,15 +79,7 @@
     <table class="table table-zebra text-sm">
       <tbody>
         <tr>
-          <th class="flex items-center gap-1">
-            AHV/IV/EO
-            <div
-              class="tooltip tooltip-right"
-              data-tip="Alters-, Hinterlassenen- und Invalidenversicherung sowie Erwerbsersatzordnung. Arbeitnehmeranteil: 5.3%"
-            >
-              <span class="text-base-content/50 cursor-help">ⓘ</span>
-            </div>
-          </th>
+          <th class="flex items-center gap-1">AHV/IV/EO</th>
           <td>
             {{
               calculatorService.ahvIvEoContributions() === 0 ||
@@ -98,15 +90,7 @@
           </td>
         </tr>
         <tr>
-          <th class="flex items-center gap-1">
-            BVG
-            <div
-              class="tooltip tooltip-right"
-              data-tip="Berufliche Vorsorge (2. Säule). Altersabhängig: 0.8% (18-24), 4.7% (25-34), 6.55% (35-44), 9.4% (45-54), 10.1% (55-65)"
-            >
-              <span class="text-base-content/50 cursor-help">ⓘ</span>
-            </div>
-          </th>
+          <th class="flex items-center gap-1">BVG</th>
           <td>
             {{
               calculatorService.bvgContributions() === 0 ||
@@ -117,15 +101,7 @@
           </td>
         </tr>
         <tr>
-          <th class="flex items-center gap-1">
-            ALV
-            <div
-              class="tooltip tooltip-right"
-              data-tip="Arbeitslosenversicherung. 1.1% bis CHF 148'200 Jahreslohn, darüber zusätzlich 0.5% Solidaritätsbeitrag"
-            >
-              <span class="text-base-content/50 cursor-help">ⓘ</span>
-            </div>
-          </th>
+          <th class="flex items-center gap-1">ALV</th>
           <td>
             {{
               calculatorService.alvContributions() === 0 ||
@@ -136,15 +112,7 @@
           </td>
         </tr>
         <tr>
-          <th class="flex items-center gap-1">
-            NBU
-            <div
-              class="tooltip tooltip-right"
-              data-tip="Nichtberufsunfallversicherung. Ca. 1% (variiert je nach Versicherung und Arbeitgeber)"
-            >
-              <span class="text-base-content/50 cursor-help">ⓘ</span>
-            </div>
-          </th>
+          <th class="flex items-center gap-1">NBU</th>
           <td>
             {{
               calculatorService.nbuContributions() === 0 ||
@@ -155,15 +123,7 @@
           </td>
         </tr>
         <tr>
-          <th class="flex items-center gap-1">
-            KTG
-            <div
-              class="tooltip tooltip-right"
-              data-tip="Krankentaggeldversicherung. Ca. 0.8% (optional, deckt ca. 80% des Lohns bei Krankheit)"
-            >
-              <span class="text-base-content/50 cursor-help">ⓘ</span>
-            </div>
-          </th>
+          <th class="flex items-center gap-1">KTG</th>
           <td>
             {{
               calculatorService.ktgContributions() === 0 ||
