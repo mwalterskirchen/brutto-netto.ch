@@ -37,23 +37,23 @@ import { RouterLink } from '@angular/router';
       </section>
 
       <section class="mb-6">
-        <h3 class="text-lg font-semibold mb-2">Webanalyse mit Simple Analytics</h3>
+        <h3 class="text-lg font-semibold mb-2">Webanalyse mit Cloudflare Web Analytics</h3>
         <p class="text-base-content/80 leading-relaxed">
           Zur Analyse der Nutzung unserer Website verwenden wir
           <a
-            href="https://www.simpleanalytics.com"
+            href="https://www.cloudflare.com/web-analytics/"
             target="_blank"
             rel="noopener"
             class="link link-primary"
-            >Simple Analytics</a
-          >, einen datenschutzfreundlichen Analysedienst mit Sitz in den Niederlanden (EU). Simple
+            >Cloudflare Web Analytics</a
+          >, einen datenschutzfreundlichen Analysedienst von Cloudflare, Inc. (USA). Cloudflare Web
           Analytics zeichnet sich durch folgende Eigenschaften aus:
         </p>
         <ul class="list-disc list-inside mt-2 text-base-content/80 space-y-1">
           <li>Keine Verwendung von Cookies</li>
           <li>Keine Speicherung von IP-Adressen</li>
           <li>Keine Erfassung personenbezogener Daten</li>
-          <li>Keine Weitergabe von Daten an Dritte</li>
+          <li>Kein Fingerprinting oder Tracking einzelner Besucher</li>
           <li>DSGVO-konform und konform mit dem Schweizer Datenschutzgesetz</li>
         </ul>
         <p class="text-base-content/80 leading-relaxed mt-2">
