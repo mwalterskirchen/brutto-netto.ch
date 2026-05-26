@@ -1,0 +1,42 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Calculator from '../components/Calculator';
+import HowItWorks from '../components/HowItWorks.astro';
+import FAQ from '../components/FAQ.astro';
+
+const title = 'Brutto Netto Rechner Schweiz 2026 - 100% Privat & Open Source Lohnrechner';
+const description =
+  '100% privater Open Source Brutto Netto Rechner Schweiz 2026: Berechnen Sie Ihren Nettolohn mit allen AHV, IV, ALV, BVG Abzügen. Alle Daten bleiben in Ihrem Browser – transparent & sicher!';
+
+const webApp = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Brutto Netto Rechner Schweiz',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  browserRequirements: 'Requires JavaScript',
+  description:
+    '100% privater Open Source Lohnrechner für die Schweiz. Berechnen Sie Ihren Nettolohn aus dem Bruttolohn mit allen Sozialversicherungsabzügen (AHV, IV, EO, ALV, BVG, NBU) für 2026. Alle Berechnungen finden ausschliesslich in Ihrem Browser statt – Ihre Daten werden niemals an einen Server übertragen.',
+  isAccessibleForFree: true,
+  inLanguage: 'de-CH',
+  url: 'https://brutto-netto.ch',
+  author: { '@type': 'Person', name: 'Maximilian Walterskirchen' },
+  codeRepository: 'https://github.com/mwalterskirchen/brutto-netto.ch',
+  programmingLanguage: 'TypeScript',
+  license: 'https://opensource.org/licenses/MIT',
+};
+
+const meta = ['name="keywords"'].map(() => null); // unused
+---
+<Layout title={title} description={description} canonicalPath="/">
+  <Fragment slot="head">
+    <meta
+      name="keywords"
+      content="brutto netto rechner schweiz, lohnrechner schweiz, gehaltsrechner schweiz, nettolohn berechnen, open source lohnrechner, privater gehaltsrechner, datenschutz, AHV rechner, lohnabzüge schweiz 2026"
+    />
+    <script type="application/ld+json" set:html={JSON.stringify(webApp)} />
+  </Fragment>
+  <Calculator client:load />
+  <HowItWorks />
+  <FAQ />
+</Layout>

@@ -1,0 +1,96 @@
+@import 'tailwindcss';
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --color-bg: oklch(100% 0 0);
+  --color-surface: oklch(98% 0 0);
+  --color-surface-elevated: oklch(95% 0 0);
+  --color-fg: oklch(20% 0 0);
+  --color-fg-muted: oklch(45% 0 0);
+  --color-primary: oklch(45% 0.24 277);
+  --color-primary-fg: oklch(98% 0 0);
+  --color-border: oklch(90% 0 0);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: oklch(20% 0 0);
+    --color-surface: oklch(25% 0 0);
+    --color-surface-elevated: oklch(30% 0 0);
+    --color-fg: oklch(95% 0 0);
+    --color-fg-muted: oklch(70% 0 0);
+    --color-primary: oklch(70% 0.18 277);
+    --color-primary-fg: oklch(15% 0 0);
+    --color-border: oklch(35% 0 0);
+  }
+}
+
+@layer base {
+  html {
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+  }
+  body {
+    min-height: 100dvh;
+  }
+  a {
+    color: var(--color-primary);
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  input[type='number'],
+  input[type='text'] {
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    width: 100%;
+  }
+  input[type='number']:focus,
+  input[type='text']:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 1px;
+  }
+}
+
+/* FAQ <details> collapse styling */
+details.faq-item {
+  background-color: var(--color-surface);
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-border);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+details.faq-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+details.faq-item > summary {
+  cursor: pointer;
+  padding: 1rem 1.25rem;
+  font-weight: 500;
+  font-size: 1.05rem;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+details.faq-item > summary::-webkit-details-marker {
+  display: none;
+}
+details.faq-item > summary::after {
+  content: '+';
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--color-fg-muted);
+  flex-shrink: 0;
+}
+details.faq-item[open] > summary::after {
+  content: '−';
+}
+details.faq-item > .faq-body {
+  padding: 0 1.25rem 1rem;
+  color: var(--color-fg);
+}

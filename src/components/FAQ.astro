@@ -1,0 +1,134 @@
+---
+const items = [
+  {
+    q: 'Was ist der Unterschied zwischen Brutto und Netto Lohn?',
+    text: 'Der Bruttolohn ist Ihr Gehalt vor Abzügen. Der Nettolohn ist der Betrag, der nach Abzug aller Sozialversicherungsbeiträge (AHV, IV, EO, ALV, BVG, NBU) auf Ihr Bankkonto überwiesen wird.',
+  },
+  {
+    q: 'Welche Abzüge werden in der Schweiz vom Lohn abgezogen?',
+    text: "In der Schweiz werden folgende Sozialversicherungsbeiträge vom Bruttolohn abgezogen: AHV/IV/EO (ca. 5.3%), ALV (1.1% bis 148'200 CHF Jahreslohn), BVG/Pensionskasse (altersabhängig), NBU (ca. 1-3%) und optional KTG (Krankentaggeldversicherung).",
+  },
+  {
+    q: 'Ist der Brutto Netto Rechner kostenlos?',
+    text: 'Ja, unser Brutto Netto Rechner ist 100% kostenlos und kann ohne Registrierung oder Anmeldung genutzt werden. Sie können beliebig viele Berechnungen durchführen.',
+  },
+  {
+    q: 'Gilt der Rechner für alle Kantone in der Schweiz?',
+    text: 'Ja, die Sozialversicherungsbeiträge (AHV, IV, ALV, BVG) sind in der ganzen Schweiz einheitlich. Der Rechner gilt für alle Kantone wie Zürich, Basel, Bern, Luzern, Aargau, St.Gallen, Genf, Waadt und alle weiteren Kantone. Beachten Sie jedoch, dass Steuern kantonal unterschiedlich sind und hier nicht berücksichtigt werden.',
+  },
+  {
+    q: 'Was ist der 13. Monatslohn?',
+    text: 'Der 13. Monatslohn ist eine zusätzliche Lohnzahlung, die viele Schweizer Arbeitgeber/innen Ende des Jahres bezahlen. Er entspricht in der Regel einem vollen Monatslohn und ist ebenfalls sozialversicherungspflichtig. In unserem Rechner können Sie aktivieren, ob Sie einen 13. Monatslohn erhalten.',
+  },
+  {
+    q: 'Sind meine Lohndaten bei diesem Rechner sicher?',
+    text: 'Ja, 100% sicher. Alle Berechnungen finden ausschliesslich in Ihrem Browser statt. Ihre Daten werden niemals an einen Server übertragen. Zudem ist der gesamte Quellcode Open Source auf GitHub verfügbar.',
+  },
+  {
+    q: 'Wer steckt hinter diesem Rechner?',
+    text: 'Als ich nach einem Brutto-Netto-Rechner für die Schweiz suchte, fand ich viele Optionen, aber keine, der ich wirklich vertrauen konnte. Bei den meisten Rechnern war mir unklar, was mit meinen Lohndaten passiert. Da keiner Open Source war, konnte ich das nicht nachprüfen. Also habe ich diesen Rechner selbst gebaut: komplett transparent, komplett lokal und Open Source. Der Code liegt offen auf GitHub. Jeder kann ihn prüfen, verbessern oder für eigene Zwecke nutzen.',
+  },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: items.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.text },
+  })),
+};
+---
+
+<section class="max-w-4xl mx-auto mt-8 mb-8">
+  <h2 class="text-2xl font-bold mb-6 text-center">Häufig gestellte Fragen (FAQ)</h2>
+  <div class="space-y-4">
+    <details class="faq-item">
+      <summary>Was ist der Unterschied zwischen Brutto und Netto Lohn?</summary>
+      <div class="faq-body">
+        <p>
+          Der <strong>Bruttolohn</strong> ist Ihr Gehalt vor Abzügen. Der
+          <strong>Nettolohn</strong> ist der Betrag, der nach Abzug aller Sozialversicherungsbeiträge (AHV, IV, EO, ALV, BVG, NBU) auf Ihr Bankkonto überwiesen wird.
+        </p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Welche Abzüge werden in der Schweiz vom Lohn abgezogen?</summary>
+      <div class="faq-body">
+        <p>
+          In der Schweiz werden folgende Sozialversicherungsbeiträge vom Bruttolohn abgezogen:
+          AHV/IV/EO (ca. 5.3%), ALV (1.1% bis 148'200 CHF Jahreslohn), BVG/Pensionskasse
+          (altersabhängig), NBU (ca. 1-3%) und optional KTG (Krankentaggeldversicherung).
+        </p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Ist der Brutto Netto Rechner kostenlos?</summary>
+      <div class="faq-body">
+        <p>
+          Ja, unser Brutto Netto Rechner ist <strong>100% kostenlos</strong> und kann ohne
+          Registrierung oder Anmeldung genutzt werden. Sie können beliebig viele Berechnungen
+          durchführen.
+        </p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Gilt der Rechner für alle Kantone in der Schweiz?</summary>
+      <div class="faq-body">
+        <p>
+          Ja, die <strong>Sozialversicherungsbeiträge</strong> (AHV, IV, ALV, BVG) sind in der
+          ganzen Schweiz einheitlich. Der Rechner gilt für alle Kantone wie Zürich, Basel, Bern,
+          Luzern, Aargau, St.Gallen, Genf, Waadt und alle weiteren Kantone. Beachten Sie jedoch,
+          dass Steuern kantonal unterschiedlich sind und hier nicht berücksichtigt werden.
+        </p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Was ist der 13. Monatslohn?</summary>
+      <div class="faq-body">
+        <p>
+          Der <strong>13. Monatslohn</strong> ist eine zusätzliche Lohnzahlung, die viele Schweizer
+          Arbeitgeber/innen Ende des Jahres bezahlen. Er entspricht in der Regel einem vollen
+          Monatslohn und ist ebenfalls sozialversicherungspflichtig. In unserem Rechner können Sie
+          aktivieren, ob Sie einen 13. Monatslohn erhalten.
+        </p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Sind meine Lohndaten bei diesem Rechner sicher?</summary>
+      <div class="faq-body">
+        <p>
+          Ja, <strong>100% sicher</strong>. Alle Berechnungen finden ausschliesslich in Ihrem
+          Browser statt. Ihre Daten werden niemals an einen Server übertragen. Zudem ist der gesamte
+          Quellcode
+          <a href="https://github.com/mwalterskirchen/brutto-netto.ch" target="_blank" rel="noopener">Open Source auf GitHub</a>
+          verfügbar.
+        </p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Wer steckt hinter diesem Rechner?</summary>
+      <div class="faq-body">
+        <p>
+          Als ich nach einem Brutto-Netto-Rechner für die Schweiz suchte, fand ich viele Optionen,
+          aber keine, der ich wirklich vertrauen konnte. Bei den meisten Rechnern war mir unklar,
+          was mit meinen Lohndaten passiert. Da keiner Open Source war, konnte ich das nicht
+          nachprüfen. Also habe ich diesen Rechner selbst gebaut:
+          <strong>komplett transparent</strong>, <strong>komplett lokal</strong> und
+          <strong>Open Source</strong>. Der
+          <a href="https://github.com/mwalterskirchen/brutto-netto.ch" target="_blank" rel="noopener">Code liegt offen auf GitHub.</a>
+          Jeder kann ihn prüfen, verbessern oder für eigene Zwecke nutzen.
+        </p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
