@@ -5,13 +5,13 @@ const m = t.methodology;
 <section class="w-full max-w-5xl mx-auto flex flex-col gap-8" aria-labelledby="methodology-heading">
   <header class="flex flex-col gap-2">
     <p class="font-mono text-xs uppercase tracking-widest text-fg-subtle">{m.eyebrow}</p>
-    <h2 id="methodology-heading" class="font-sans text-3xl sm:text-4xl text-fg leading-tight tracking-tight">
+    <h2 id="methodology-heading" class="font-sans text-2xl sm:text-3xl md:text-4xl text-fg leading-tight tracking-tight text-balance">
       {m.heading}
     </h2>
   </header>
 
   <div class="grid gap-6 md:grid-cols-2 md:items-start">
-    <div class="card p-6 flex flex-col gap-5">
+    <div class="card p-5 sm:p-6 flex flex-col gap-5">
       <div class="flex flex-col gap-2">
         <p class="font-mono text-xs uppercase tracking-widest text-fg-muted">{m.includes.heading}</p>
         <ul class="flex flex-col gap-1.5 text-sm text-fg">
@@ -39,7 +39,7 @@ const m = t.methodology;
       </div>
     </div>
 
-    <div class="card p-6 flex flex-col gap-4">
+    <div class="card p-5 sm:p-6 flex flex-col gap-4">
       <div class="flex items-baseline justify-between gap-3 flex-wrap">
         <p class="font-mono text-xs uppercase tracking-widest text-fg-muted">{m.sources.heading}</p>
         <p class="font-mono text-xs text-fg">{m.sources.asOf}</p>

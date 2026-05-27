@@ -128,31 +128,6 @@
     box-shadow: var(--shadow-card);
   }
 
-  /* Reusable chip */
-  .chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
-    height: 1.5rem;
-    padding: 0 0.5rem;
-    border-radius: var(--radius-pill);
-    background: var(--color-surface-elevated);
-    border: 1px solid var(--color-border);
-    color: var(--color-fg-muted);
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    letter-spacing: 0.04em;
-    text-transform: lowercase;
-  }
-  .chip > .chip-dot {
-    width: 0.375rem;
-    height: 0.375rem;
-    border-radius: 999px;
-    background: var(--color-ktg);
-    box-shadow: 0 0 0 2px color-mix(in oklab, var(--color-ktg) 30%, transparent);
-    animation: pulse-dot 2.4s var(--ease-out-soft) infinite;
-  }
-
   /* Encrypted-style number input — the privacy flourish */
   .control-input {
     width: 100%;
@@ -319,15 +294,24 @@
   }
   details.faq-item > summary {
     cursor: pointer;
-    padding: 1rem 1.25rem;
+    padding: 0.875rem 1rem;
     font-weight: 500;
-    font-size: 1.0625rem;
+    font-size: 1rem;
     list-style: none;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 1rem;
     color: var(--color-fg);
+  }
+  @media (min-width: 640px) {
+    details.faq-item > summary {
+      padding: 1rem 1.25rem;
+      font-size: 1.0625rem;
+    }
+    details.faq-item > .faq-body {
+      padding: 0 1.25rem 1rem;
+    }
   }
   details.faq-item > summary::-webkit-details-marker {
     display: none;
@@ -346,14 +330,9 @@
     color: var(--color-fg);
   }
   details.faq-item > .faq-body {
-    padding: 0 1.25rem 1rem;
+    padding: 0 1rem 0.875rem;
     color: var(--color-fg-muted);
   }
-}
-
-@keyframes pulse-dot {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
 }
 
 @keyframes jitter {

@@ -44,19 +44,15 @@ const ogImage = new URL('/og_image.png', Astro.site).toString();
   </head>
   <body class="bg-bg text-fg">
     <div class="max-w-6xl mx-auto px-5 sm:px-8 pt-6 sm:pt-10 min-h-screen flex flex-col gap-12 sm:gap-20">
-      <header class="flex items-center justify-between gap-4">
+      <header class="flex items-center">
         <a href="/" aria-label="Startseite" class="flex items-center gap-2.5 no-underline">
           <img src="/mark.svg" alt="" width="28" height="28" aria-hidden="true" />
           <span class="font-mono text-sm tracking-tight text-fg">brutto-netto<span class="text-fg-muted">.ch</span></span>
         </a>
-        <span class="chip" aria-label="100% in deinem Browser">
-          <span class="chip-dot" aria-hidden="true"></span>
-          0&nbsp;requests · local
-        </span>
         <h1 class="sr-only">Brutto Netto Lohnrechner Schweiz 2026</h1>
       </header>
 
-      <main class="flex-1 flex flex-col gap-24 sm:gap-32">
+      <main class="flex-1 flex flex-col gap-16 sm:gap-24 lg:gap-32">
         <slot />
       </main>
     </div>

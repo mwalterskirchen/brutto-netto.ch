@@ -95,7 +95,7 @@ const Calculator: Component = () => {
 
   return (
     <section
-      class="grid gap-8 lg:grid-cols-[minmax(0,360px)_minmax(0,1fr)] lg:gap-12 lg:items-start"
+      class="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,360px)_minmax(0,1fr)] lg:gap-12 lg:items-start"
       aria-label="Lohnrechner"
     >
       <ControlDeck
@@ -410,7 +410,7 @@ const FlowAndReceipt: Component<{
   return (
     <div class="flex flex-col gap-6">
       <header
-        class="card p-6 sm:p-8 transition-opacity"
+        class="card p-5 sm:p-6 md:p-8 transition-opacity [container-type:inline-size]"
         classList={{ 'opacity-60': props.ghost }}
       >
         <Show when={props.ghost}>
@@ -423,11 +423,11 @@ const FlowAndReceipt: Component<{
             {t.calculator.receipt.netHeading}
             <span class="text-fg-subtle"> {periodSuffix()}</span>
           </p>
-          <p class="font-mono text-4xl sm:text-5xl lg:text-6xl text-fg leading-none tracking-tight">
+          <p class="font-mono text-[clamp(1.75rem,11cqw,6rem)] text-fg leading-none tracking-tight">
             {formatCHF(props.result.net ?? 0)}
           </p>
         </div>
-        <div class="mt-5 pt-5 border-t border-border grid grid-cols-2 gap-4 sm:grid-cols-3">
+        <div class="mt-5 pt-5 border-t border-border grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-3">
           <Stat label={`${t.calculator.receipt.grossHeading} ${periodSuffix()}`} value={formatCHF(props.gross)} />
           <Stat label={t.calculator.receipt.totalLabel} value={`−${formatCHF(props.result.total)}`} />
           <Stat label={t.calculator.receipt.ofGross} value={formatPercent(totalPct())} />
@@ -720,7 +720,7 @@ const DeductionList: Component<{ result: CalculatorResult; ghost: boolean; frequ
 
   return (
     <div class="card overflow-hidden">
-      <header class="px-5 py-3 border-b border-border flex items-baseline justify-between">
+      <header class="px-4 sm:px-5 py-3 border-b border-border flex items-baseline justify-between">
         <h3 class="font-mono text-xs uppercase tracking-wider text-fg-muted">
           {t.calculator.receipt.deductionsHeading(props.frequency)}
         </h3>
@@ -733,13 +733,13 @@ const DeductionList: Component<{ result: CalculatorResult; ghost: boolean; frequ
         <For
           each={rows()}
           fallback={
-            <li class="px-5 py-4 text-sm text-fg-subtle font-mono">
+            <li class="px-4 sm:px-5 py-4 text-sm text-fg-subtle font-mono">
               {t.calculator.receipt.ghostHint}
             </li>
           }
         >
           {(row) => (
-            <li class="px-5 py-3 flex items-center gap-4 border-b border-border last:border-b-0">
+            <li class="px-4 sm:px-5 py-3 flex items-center gap-4 border-b border-border last:border-b-0">
               <span
                 class="size-2.5 rounded-full shrink-0"
                 style={{
