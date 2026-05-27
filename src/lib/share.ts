@@ -28,10 +28,18 @@ function fromBase64Url(b64u: string): string | null {
   }
 }
 
+const MIN_AGE = 18;
+const MAX_AGE = 70;
+
+const isValidGross = (n: unknown): n is number =>
+  typeof n === 'number' && Number.isFinite(n) && n >= 0;
+const isValidAge = (n: unknown): n is number =>
+  typeof n === 'number' && Number.isFinite(n) && n >= MIN_AGE && n <= MAX_AGE;
+
 export function encodeInputs(inputs: ShareableInputs): string {
   const payload: Payload = {};
-  if (typeof inputs.gross === 'number' && Number.isFinite(inputs.gross)) payload.g = inputs.gross;
-  if (typeof inputs.age === 'number' && Number.isFinite(inputs.age)) payload.a = inputs.age;
+  if (isValidGross(inputs.gross)) payload.g = inputs.gross;
+  if (isValidAge(inputs.age)) payload.a = inputs.age;
   if (inputs.frequency === 'annual') payload.f = 'y';
   if (inputs.thirteenth) payload.t = 1;
   if (inputs.ktg) payload.k = 1;
@@ -51,8 +59,8 @@ export function decodeInputs(hash: string): Partial<ShareableInputs> | null {
   }
   if (typeof parsed !== 'object' || parsed === null) return null;
   const out: Partial<ShareableInputs> = {};
-  if (typeof parsed.g === 'number' && Number.isFinite(parsed.g)) out.gross = parsed.g;
-  if (typeof parsed.a === 'number' && Number.isFinite(parsed.a)) out.age = parsed.a;
+  if (isValidGross(parsed.g)) out.gross = parsed.g;
+  if (isValidAge(parsed.a)) out.age = parsed.a;
   out.frequency = parsed.f === 'y' ? 'annual' : 'monthly';
   out.thirteenth = parsed.t === 1;
   out.ktg = parsed.k === 1;
