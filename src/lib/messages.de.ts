@@ -3,9 +3,13 @@ export const messages = {
     wordmark: 'brutto-netto.ch',
     tagline: 'Schweiz · 2026',
     a11yHeading: 'Brutto Netto Lohnrechner Schweiz 2026',
+    hero: {
+      headline: 'Lohn rechnen, lokal.',
+      subline:
+        'Keine Daten verlassen den Browser. Open Source. Berechnung läuft komplett in Ihrem Browser.',
+    },
   },
   privacy: {
-    localTag: 'local',
     badge: '0 requests',
     badgeNote: '100% in deinem Browser',
   },

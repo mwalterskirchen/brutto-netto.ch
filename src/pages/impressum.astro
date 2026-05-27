@@ -1,18 +1,98 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-const title = 'Impressum | Brutto Netto Rechner Schweiz';
-const description = 'Impressum und Kontaktangaben zum Brutto Netto Rechner Schweiz.';
+const title = 'Impressum & Haftungsausschluss | Brutto Netto Rechner Schweiz';
+const description =
+  'Impressum, Kontaktangaben und Haftungsausschluss zum Brutto Netto Rechner Schweiz.';
 ---
 <Layout title={title} description={description}>
-  <div class="max-w-3xl mx-auto">
-    <h2 class="text-2xl font-bold mb-4">Impressum</h2>
-    <address class="not-italic mb-4">
-      <strong>Maximilian Walterskirchen</strong><br />
-      c/o F2BII E-Commerce#296<br />
-      Hintergoldingerstrasse 30<br />
-      8638 Goldingen<br />
-    </address>
-    <a href="mailto:contact@mwalterskirchen.dev">contact@mwalterskirchen.dev</a>
+  <div class="flex flex-col gap-12">
+    <section aria-labelledby="impressum-heading" class="flex flex-col gap-4">
+      <p class="font-mono text-xs uppercase tracking-widest text-fg-subtle">kontakt</p>
+      <h2 id="impressum-heading" class="font-sans text-3xl sm:text-4xl text-fg leading-tight tracking-tight">
+        Impressum
+      </h2>
+      <div class="card p-6 sm:p-8 grid gap-6 sm:grid-cols-2">
+        <address class="not-italic flex flex-col gap-1 text-sm sm:text-base">
+          <span class="font-mono text-xs uppercase tracking-wider text-fg-muted mb-1">Betreiber</span>
+          <strong class="text-fg font-medium">Maximilian Walterskirchen</strong>
+          <span class="text-fg-muted">c/o F2BII E-Commerce#296</span>
+          <span class="text-fg-muted">Hintergoldingerstrasse 30</span>
+          <span class="text-fg-muted">8638 Goldingen</span>
+        </address>
+        <div class="flex flex-col gap-1 text-sm sm:text-base">
+          <span class="font-mono text-xs uppercase tracking-wider text-fg-muted mb-1">Kontakt</span>
+          <a href="mailto:contact@mwalterskirchen.dev" class="font-mono text-fg no-underline hover:text-fg break-all">
+            contact@mwalterskirchen.dev
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="haftung-heading" class="flex flex-col gap-6">
+      <header class="flex flex-col gap-2">
+        <p class="font-mono text-xs uppercase tracking-widest text-fg-subtle">rechtliches</p>
+        <h2 id="haftung-heading" class="font-sans text-3xl sm:text-4xl text-fg leading-tight tracking-tight">
+          Haftungsausschluss
+        </h2>
+      </header>
+
+      <div class="grid gap-5 md:grid-cols-2">
+        <article class="card p-5 sm:p-6 flex flex-col gap-2">
+          <h3 class="font-mono text-xs uppercase tracking-widest text-fg-muted">Keine Gewährleistung</h3>
+          <p class="text-fg-muted leading-relaxed text-sm sm:text-base">
+            Die Berechnungen des Brutto-Netto-Rechners dienen ausschliesslich zu
+            Informationszwecken und stellen keine rechtsverbindliche Auskunft dar. Obwohl wir uns
+            bemühen, die Berechnungen so genau wie möglich durchzuführen, können wir keine Gewähr
+            für die Richtigkeit, Vollständigkeit und Aktualität der Ergebnisse übernehmen.
+          </p>
+        </article>
+
+        <article class="card p-5 sm:p-6 flex flex-col gap-2">
+          <h3 class="font-mono text-xs uppercase tracking-widest text-fg-muted">Haftungsbeschränkung</h3>
+          <p class="text-fg-muted leading-relaxed text-sm sm:text-base">
+            Der Betreiber dieser Website haftet nicht für Schäden, die durch die Nutzung oder
+            Nichtnutzung der bereitgestellten Informationen und Berechnungen entstehen. Dies gilt
+            insbesondere für finanzielle Entscheidungen, die auf Grundlage der hier angezeigten
+            Ergebnisse getroffen werden.
+          </p>
+        </article>
+
+        <article class="card p-5 sm:p-6 flex flex-col gap-3">
+          <h3 class="font-mono text-xs uppercase tracking-widest text-fg-muted">Abweichungen möglich</h3>
+          <p class="text-fg-muted leading-relaxed text-sm sm:text-base">
+            Die tatsächlichen Steuer- und Sozialversicherungsabzüge können von den berechneten
+            Werten abweichen. Dies kann unter anderem folgende Gründe haben:
+          </p>
+          <ul class="flex flex-col gap-1.5 text-sm sm:text-base text-fg-muted">
+            <li class="flex items-start gap-2.5">
+              <span class="mt-1.5 size-1.5 rounded-full bg-fg-subtle shrink-0" />
+              <span>Änderungen der Steuergesetze oder Abgabesätze</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="mt-1.5 size-1.5 rounded-full bg-fg-subtle shrink-0" />
+              <span>Kantonale und kommunale Unterschiede</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="mt-1.5 size-1.5 rounded-full bg-fg-subtle shrink-0" />
+              <span>Individuelle Faktoren, die nicht berücksichtigt werden</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="mt-1.5 size-1.5 rounded-full bg-fg-subtle shrink-0" />
+              <span>Rundungsdifferenzen</span>
+            </li>
+          </ul>
+        </article>
+
+        <article class="card p-5 sm:p-6 flex flex-col gap-2">
+          <h3 class="font-mono text-xs uppercase tracking-widest text-fg-muted">Empfehlung</h3>
+          <p class="text-fg-muted leading-relaxed text-sm sm:text-base">
+            Für verbindliche Auskünfte wenden Sie sich bitte an Ihre zuständige Steuerbehörde,
+            Ihre Ausgleichskasse oder einen qualifizierten Steuerberater. Die Ergebnisse dieses
+            Rechners ersetzen keine professionelle Beratung.
+          </p>
+        </article>
+      </div>
+    </section>
   </div>
 </Layout>

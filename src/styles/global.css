@@ -170,40 +170,6 @@
     -moz-appearance: textfield;
   }
 
-  /* Field wrapper that hosts the [·local·] chip + input */
-  .control-field {
-    position: relative;
-  }
-  .control-field .control-input {
-    padding-right: 4.25rem;
-  }
-  .control-field .local-tag {
-    position: absolute;
-    top: 50%;
-    right: 0.625rem;
-    transform: translateY(-50%);
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    padding: 0.125rem 0.4375rem;
-    border-radius: var(--radius-pill);
-    background: color-mix(in oklab, var(--color-ktg) 14%, transparent);
-    color: var(--color-ktg);
-    font-family: var(--font-mono);
-    font-size: 0.625rem;
-    letter-spacing: 0.08em;
-    text-transform: lowercase;
-    pointer-events: none;
-  }
-  .control-field .local-tag::before {
-    content: '';
-    width: 0.3125rem;
-    height: 0.3125rem;
-    border-radius: 999px;
-    background: var(--color-ktg);
-    box-shadow: 0 0 0 2px color-mix(in oklab, var(--color-ktg) 30%, transparent);
-  }
-
   /* Keystroke jitter — toggled by class on the input */
   .control-input.is-jittering {
     animation: jitter 120ms var(--ease-out-soft);
@@ -346,4 +312,17 @@
 @keyframes caret-blink {
   0%, 50% { opacity: 1; }
   51%, 100% { opacity: 0; }
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  animation: rise 0.45s var(--ease-out-soft) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { animation: none; }
 }

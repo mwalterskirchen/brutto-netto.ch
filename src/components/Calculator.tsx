@@ -9,6 +9,7 @@ import {
   type Component,
   type JSX,
 } from 'solid-js';
+import { Motion } from 'solid-motionone';
 import { debounce } from '@solid-primitives/scheduled';
 import * as echarts from 'echarts/core';
 import { SankeyChart, BarChart } from 'echarts/charts';
@@ -53,6 +54,13 @@ function parseNumber(value: string): number | undefined {
 }
 
 const GHOST_GROSS = 100000; // CHF/year for empty-state ghost preview
+
+const REVEAL_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+const reveal = (delay: number) => ({
+  initial: { opacity: 0, y: 12 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.45, delay, easing: REVEAL_EASE },
+});
 
 const Calculator: Component = () => {
   const [grossInput, setGrossInput] = createSignal<number | undefined>(undefined);
@@ -154,7 +162,7 @@ const ControlDeck: Component<ControlDeckProps> = (props) => {
   };
 
   return (
-    <div class="flex flex-col gap-5 lg:sticky lg:top-6">
+    <Motion.div class="flex flex-col gap-5 lg:sticky lg:top-6" {...reveal(0.12)}>
       {/* Frequency segmented control */}
       <div role="tablist" aria-label={t.calculator.frequency.label} class="segmented">
         <input
@@ -219,7 +227,7 @@ const ControlDeck: Component<ControlDeckProps> = (props) => {
           onChange={props.setKtg}
         />
       </div>
-    </div>
+    </Motion.div>
   );
 };
 
@@ -252,24 +260,21 @@ const CryptoNumberField: Component<{
         </label>
         <span class="font-mono text-xs text-fg-subtle">{props.unit}</span>
       </div>
-      <div class="control-field">
-        <input
-          ref={inputRef}
-          id={props.id}
-          type="number"
-          inputmode="decimal"
-          class="control-input"
-          placeholder={props.placeholder}
-          value={props.value ?? ''}
-          min={props.min}
-          max={props.max}
-          onInput={(e) => {
-            jitter();
-            props.onChange(parseNumber(e.currentTarget.value));
-          }}
-        />
-        <span class="local-tag" aria-hidden="true">{t.privacy.localTag}</span>
-      </div>
+      <input
+        ref={inputRef}
+        id={props.id}
+        type="number"
+        inputmode="decimal"
+        class="control-input"
+        placeholder={props.placeholder}
+        value={props.value ?? ''}
+        min={props.min}
+        max={props.max}
+        onInput={(e) => {
+          jitter();
+          props.onChange(parseNumber(e.currentTarget.value));
+        }}
+      />
     </div>
   );
 };
@@ -409,9 +414,10 @@ const FlowAndReceipt: Component<{
 
   return (
     <div class="flex flex-col gap-6">
-      <header
+      <Motion.header
         class="card p-5 sm:p-6 md:p-8 transition-opacity [container-type:inline-size]"
         classList={{ 'opacity-60': props.ghost }}
+        {...reveal(0.2)}
       >
         <Show when={props.ghost}>
           <p class="font-mono text-xs uppercase tracking-wider text-fg-subtle mb-3">
@@ -438,7 +444,7 @@ const FlowAndReceipt: Component<{
             <ShareButton inputs={props.shareInputs} />
           </Show>
         </div>
-      </header>
+      </Motion.header>
 
       <FlowVisualization
         result={props.result}
@@ -473,14 +479,15 @@ const FlowVisualization: Component<{
   });
 
   return (
-    <div
+    <Motion.div
       class="card p-4 sm:p-6 transition-opacity"
       classList={{ 'opacity-50': props.ghost }}
+      {...reveal(0.3)}
     >
       <Show when={isWide()} fallback={<Waterfall result={props.result} gross={props.gross} />}>
         <Sankey result={props.result} gross={props.gross} />
       </Show>
-    </div>
+    </Motion.div>
   );
 };
 
@@ -719,7 +726,7 @@ const DeductionList: Component<{ result: CalculatorResult; ghost: boolean; frequ
   );
 
   return (
-    <div class="card overflow-hidden">
+    <Motion.div class="card overflow-hidden" {...reveal(0.42)}>
       <header class="px-4 sm:px-5 py-3 border-b border-border flex items-baseline justify-between">
         <h3 class="font-mono text-xs uppercase tracking-wider text-fg-muted">
           {t.calculator.receipt.deductionsHeading(props.frequency)}
@@ -758,7 +765,7 @@ const DeductionList: Component<{ result: CalculatorResult; ghost: boolean; frequ
           )}
         </For>
       </ul>
-    </div>
+    </Motion.div>
   );
 };
 

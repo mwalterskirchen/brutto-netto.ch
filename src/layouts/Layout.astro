@@ -1,14 +1,17 @@
 ---
 import '../styles/global.css';
 import Footer from '../components/Footer.astro';
+import { messages as t } from '../lib/messages.de';
 
 interface Props {
   title: string;
   description: string;
   canonicalPath?: string;
+  showHero?: boolean;
 }
 
-const { title, description, canonicalPath } = Astro.props;
+const { title, description, canonicalPath, showHero = false } = Astro.props;
+const hero = t.brand.hero;
 const canonical = new URL(canonicalPath ?? Astro.url.pathname, Astro.site).toString();
 const ogImage = new URL('/og_image.png', Astro.site).toString();
 ---
@@ -49,10 +52,23 @@ const ogImage = new URL('/og_image.png', Astro.site).toString();
           <img src="/mark.svg" alt="" width="28" height="28" aria-hidden="true" />
           <span class="font-mono text-sm tracking-tight text-fg">brutto-netto<span class="text-fg-muted">.ch</span></span>
         </a>
-        <h1 class="sr-only">Brutto Netto Lohnrechner Schweiz 2026</h1>
+        {!showHero && <h1 class="sr-only">{t.brand.a11yHeading}</h1>}
       </header>
 
       <main class="flex-1 flex flex-col gap-16 sm:gap-24 lg:gap-32">
+        {showHero && (
+          <section class="flex flex-col items-start gap-3 sm:gap-4 reveal" aria-labelledby="hero-heading">
+            <h1
+              id="hero-heading"
+              class="font-sans text-4xl sm:text-5xl md:text-6xl leading-[1.05] tracking-tight text-balance text-fg"
+            >
+              {hero.headline}
+            </h1>
+            <p class="text-fg-muted text-base sm:text-lg max-w-2xl text-balance">
+              {hero.subline}
+            </p>
+          </section>
+        )}
         <slot />
       </main>
     </div>
