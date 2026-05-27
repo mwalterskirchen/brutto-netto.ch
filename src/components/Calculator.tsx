@@ -53,7 +53,7 @@ function parseNumber(value: string): number | undefined {
   return Number.isNaN(n) ? undefined : n;
 }
 
-const GHOST_GROSS = 100000; // CHF/year for empty-state ghost preview
+const DASH = '—';
 
 const REVEAL_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 const reveal = (delay: number) => ({
@@ -89,7 +89,10 @@ const Calculator: Component = () => {
       switch (e.key.toLowerCase()) {
         case 'm': setFrequency('monthly'); break;
         case 'y': setFrequency('annual'); break;
-        case 't': setThirteenthEnabled(!thirteenthEnabled()); break;
+        case 't':
+          if (frequency() === 'annual') return;
+          setThirteenthEnabled(!thirteenthEnabled());
+          break;
         case 'k': setKtgEnabled(!ktgEnabled()); break;
         default: return;
       }
@@ -101,23 +104,15 @@ const Calculator: Component = () => {
 
   const isGhost = createMemo(() => grossInput() === undefined);
 
-  // For ghost mode we feed the calc a sensible default so the viz is populated.
-  const effectiveGross = createMemo(() => {
-    if (grossInput() !== undefined) return grossInput()!;
-    return frequency() === 'monthly' ? GHOST_GROSS / 12 : GHOST_GROSS;
-  });
-
   const result = createMemo<CalculatorResult>(() =>
     calculate({
-      grossSalary: effectiveGross(),
+      grossSalary: grossInput(),
       age: age() ?? 35,
       ktgEnabled: ktgEnabled(),
       thirteenthSalaryEnabled: thirteenthEnabled(),
       frequency: frequency(),
     }),
   );
-
-  const displayGross = createMemo(() => effectiveGross());
 
   return (
     <section
@@ -139,7 +134,7 @@ const Calculator: Component = () => {
       <FlowAndReceipt
         result={result()}
         ghost={isGhost()}
-        gross={displayGross()}
+        gross={grossInput() ?? 0}
         frequency={frequency()}
         shareInputs={{
           gross: grossInput(),
@@ -239,6 +234,7 @@ const ControlDeck: Component<ControlDeckProps> = (props) => {
           shortcut="T"
           checked={props.thirteenth}
           onChange={props.setThirteenth}
+          disabled={props.frequency === 'annual'}
         />
         <div class="border-t border-border" />
         <ToggleRow
@@ -313,9 +309,7 @@ const ShareButton: Component<{ inputs: import('../lib/share').ShareableInputs }>
     } catch {
       // Clipboard refused (e.g. insecure context) — still reflect URL in the hash for manual copy.
     }
-    if (typeof history !== 'undefined') {
-      history.replaceState(null, '', url);
-    }
+    history.replaceState(null, '', url);
     setCopied(true);
     timer = setTimeout(() => setCopied(false), 1500);
   };
@@ -403,11 +397,20 @@ const ToggleRow: Component<{
   shortcut?: string;
   checked: boolean;
   onChange: (v: boolean) => void;
+  disabled?: boolean;
 }> = (props) => (
-  <label class="flex items-center justify-between gap-3 cursor-pointer text-sm" for={props.id}>
+  <label
+    class="flex items-center justify-between gap-3 text-sm"
+    classList={{
+      'cursor-pointer': !props.disabled,
+      'cursor-not-allowed opacity-40': props.disabled,
+    }}
+    for={props.id}
+    aria-disabled={props.disabled || undefined}
+  >
     <span class="flex items-center gap-2 text-fg">
       <span>{props.label}</span>
-      <Show when={props.shortcut}>
+      <Show when={props.shortcut && !props.disabled}>
         <kbd class="kbd">{props.shortcut}</kbd>
       </Show>
     </span>
@@ -417,7 +420,8 @@ const ToggleRow: Component<{
         type="checkbox"
         class="peer sr-only"
         checked={props.checked}
-        aria-keyshortcuts={props.shortcut?.toLowerCase()}
+        disabled={props.disabled}
+        aria-keyshortcuts={!props.disabled ? props.shortcut?.toLowerCase() : undefined}
         onChange={(e) => props.onChange(e.currentTarget.checked)}
       />
       <span class="toggle-track" aria-hidden="true">
@@ -444,35 +448,41 @@ const FlowAndReceipt: Component<{
   return (
     <div class="flex flex-col gap-6">
       <Motion.header
-        class="card p-5 sm:p-6 md:p-8 transition-opacity [container-type:inline-size]"
-        classList={{ 'opacity-60': props.ghost }}
+        class="card p-5 sm:p-6 md:p-8 [container-type:inline-size]"
         {...reveal(0.2)}
       >
-        <Show when={props.ghost}>
-          <p class="font-mono text-xs uppercase tracking-wider text-fg-subtle mb-3">
-            {t.calculator.receipt.ghostHint}
-          </p>
-        </Show>
         <div class="flex flex-col gap-1.5">
           <p class="font-mono text-xs uppercase tracking-widest text-fg-muted">
             {t.calculator.receipt.netHeading}
             <span class="text-fg-subtle"> {periodSuffix()}</span>
           </p>
-          <p class="font-mono text-[clamp(1.75rem,11cqw,6rem)] text-fg leading-none tracking-tight">
-            {formatCHF(props.result.net ?? 0)}
+          <p
+            class="font-mono text-[clamp(1.75rem,11cqw,6rem)] leading-none tracking-tight"
+            classList={{ 'text-fg-subtle': props.ghost, 'text-fg': !props.ghost }}
+          >
+            {props.ghost ? DASH : formatCHF(props.result.net ?? 0)}
           </p>
         </div>
         <div class="mt-5 pt-5 border-t border-border grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-3">
-          <Stat label={`${t.calculator.receipt.grossHeading} ${periodSuffix()}`} value={formatCHF(props.gross)} />
-          <Stat label={t.calculator.receipt.totalLabel} value={`−${formatCHF(props.result.total)}`} />
-          <Stat label={t.calculator.receipt.ofGross} value={formatPercent(totalPct())} />
+          <Stat
+            label={`${t.calculator.receipt.grossHeading} ${periodSuffix()}`}
+            value={props.ghost ? DASH : formatCHF(props.gross)}
+          />
+          <Stat
+            label={t.calculator.receipt.totalLabel}
+            value={props.ghost ? DASH : `−${formatCHF(props.result.total)}`}
+          />
+          <Stat
+            label={t.calculator.receipt.ofGross}
+            value={props.ghost ? DASH : formatPercent(totalPct())}
+          />
         </div>
-        <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
-          <ComparisonLine frequency={props.frequency} />
-          <Show when={!props.ghost}>
+        <Show when={!props.ghost}>
+          <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
+            <ComparisonLine frequency={props.frequency} />
             <ShareButton inputs={props.shareInputs} />
-          </Show>
-        </div>
+          </div>
+        </Show>
       </Motion.header>
 
       <FlowVisualization
@@ -508,16 +518,37 @@ const FlowVisualization: Component<{
   });
 
   return (
-    <Motion.div
-      class="card p-4 sm:p-6 transition-opacity"
-      classList={{ 'opacity-50': props.ghost }}
-      {...reveal(0.3)}
-    >
-      <Show when={isWide()} fallback={<Waterfall result={props.result} gross={props.gross} />}>
-        <Sankey result={props.result} gross={props.gross} />
+    <Motion.div class="card p-4 sm:p-6" {...reveal(0.3)}>
+      <Show when={!props.ghost} fallback={<SkeletonViz />}>
+        <Show when={isWide()} fallback={<Waterfall result={props.result} gross={props.gross} />}>
+          <Sankey result={props.result} gross={props.gross} />
+        </Show>
       </Show>
     </Motion.div>
   );
+};
+
+/* Static wireframe shown while no gross has been entered.
+   Same height as `.h-viz` to avoid layout shift when results arrive. */
+const SkeletonViz: Component = () => {
+  const widths = ['100%', '70%', '45%', '30%'];
+  return (
+    <div class="w-full h-viz flex flex-col justify-center gap-4" aria-hidden="true">
+      <For each={widths}>
+        {(w) => <div class="h-3 rounded-full bg-surface-elevated" style={{ width: w }} />}
+      </For>
+    </div>
+  );
+};
+
+/* Stable join keys for sankey nodes — never user-visible. */
+const SANKEY_GROSS = '__gross';
+const SANKEY_NET = '__net';
+
+const NODE_LABEL_BY_KEY: Record<string, string> = {
+  [SANKEY_GROSS]: t.calculator.viz.nodeGross,
+  [SANKEY_NET]: t.calculator.viz.nodeNet,
+  ...Object.fromEntries(DEDUCTION_META.map((m) => [m.key, m.label])),
 };
 
 /* Build sankey nodes + links from result */
@@ -525,18 +556,18 @@ function buildSankeyData(result: CalculatorResult, gross: number) {
   const netto = Math.max(0, result.net ?? gross - result.total);
   const nodes: { name: string; itemStyle: { color: string; borderColor: string }; label?: any }[] = [
     {
-      name: t.calculator.viz.nodeGross,
+      name: SANKEY_GROSS,
       itemStyle: { color: COLORS.brutto, borderColor: COLORS.brutto },
     },
     {
-      name: t.calculator.viz.nodeNet,
+      name: SANKEY_NET,
       itemStyle: { color: COLORS.netto, borderColor: COLORS.netto },
     },
   ];
   const links: any[] = [
     {
-      source: t.calculator.viz.nodeGross,
-      target: t.calculator.viz.nodeNet,
+      source: SANKEY_GROSS,
+      target: SANKEY_NET,
       value: netto,
       lineStyle: { color: COLORS.netto, opacity: 0.5 },
     },
@@ -545,12 +576,12 @@ function buildSankeyData(result: CalculatorResult, gross: number) {
     const v = result[meta.key];
     if (v <= 0) continue;
     nodes.push({
-      name: meta.label,
+      name: meta.key,
       itemStyle: { color: meta.color, borderColor: meta.color },
     });
     links.push({
-      source: t.calculator.viz.nodeGross,
-      target: meta.label,
+      source: SANKEY_GROSS,
+      target: meta.key,
       value: v,
       lineStyle: { color: meta.color, opacity: 0.45 },
     });
@@ -594,7 +625,7 @@ const Sankey: Component<{ result: CalculatorResult; gross: number }> = (props) =
               fontFamily: 'Geist Mono Variable, ui-monospace, monospace',
               fontSize: 11,
               fontWeight: 500,
-              formatter: (p: any) => p.name,
+              formatter: (p: any) => NODE_LABEL_BY_KEY[p.name] ?? p.name,
             },
             data: data.nodes,
             links: data.links,
@@ -642,7 +673,7 @@ const Sankey: Component<{ result: CalculatorResult; gross: number }> = (props) =
 function sankeyTooltip(params: any, gross: number): string {
   // Node hover (data has .name and no .source/target distinction we care about)
   if (params.dataType === 'node') {
-    const meta = DEDUCTION_META.find((d) => d.label === params.name);
+    const meta = DEDUCTION_META.find((d) => d.key === params.name);
     if (meta) {
       return `
         <div style="display:flex;flex-direction:column;gap:6px;min-width:220px;font-family:Geist Variable,system-ui;">
@@ -653,15 +684,15 @@ function sankeyTooltip(params: any, gross: number): string {
           <div style="color:#8a8a94;font-size:12px;line-height:1.4;">${meta.explanation}</div>
         </div>`;
     }
-    return `<strong>${params.name}</strong>`;
+    return `<strong>${NODE_LABEL_BY_KEY[params.name] ?? params.name}</strong>`;
   }
   // Edge hover
   if (params.dataType === 'edge') {
     const value = params.value as number;
     const pct = gross > 0 ? value / gross : 0;
-    const meta = DEDUCTION_META.find((d) => d.label === params.data.target);
+    const meta = DEDUCTION_META.find((d) => d.key === params.data.target);
     const color = meta?.color ?? COLORS.netto;
-    const title = meta?.label ?? params.data.target;
+    const title = meta?.label ?? NODE_LABEL_BY_KEY[params.data.target] ?? params.data.target;
     const expl = meta?.explanation ?? '';
     return `
       <div style="display:flex;flex-direction:column;gap:6px;min-width:220px;font-family:Geist Variable,system-ui;">
@@ -746,13 +777,14 @@ const Waterfall: Component<{ result: CalculatorResult; gross: number }> = (props
    ───────────────────────────────────────────────────────────────────────────── */
 
 const DeductionList: Component<{ result: CalculatorResult; ghost: boolean; frequency: Frequency }> = (props) => {
-  const rows = createMemo(() =>
-    DEDUCTION_META.map((m) => ({
-      ...m,
-      value: props.result[m.key],
-      pct: props.result.total > 0 ? props.result[m.key] / (props.result.total + (props.result.net ?? 0)) : 0,
-    })).filter((r) => r.value > 0),
-  );
+  const rows = createMemo(() => {
+    if (props.ghost) {
+      return DEDUCTION_META.map((m) => ({ ...m, value: undefined as number | undefined }));
+    }
+    return DEDUCTION_META
+      .map((m) => ({ ...m, value: props.result[m.key] as number | undefined }))
+      .filter((r) => (r.value ?? 0) > 0);
+  });
 
   return (
     <Motion.div class="card overflow-hidden" {...reveal(0.42)}>
@@ -762,18 +794,11 @@ const DeductionList: Component<{ result: CalculatorResult; ghost: boolean; frequ
         </h3>
         <span class="font-mono text-xs text-fg-muted">
           {t.calculator.receipt.totalLabel} ·{' '}
-          <span class="text-fg">{formatCHF(props.result.total)}</span>
+          <span class="text-fg">{props.ghost ? DASH : formatCHF(props.result.total)}</span>
         </span>
       </header>
       <ul>
-        <For
-          each={rows()}
-          fallback={
-            <li class="px-4 sm:px-5 py-4 text-sm text-fg-subtle font-mono">
-              {t.calculator.receipt.ghostHint}
-            </li>
-          }
-        >
+        <For each={rows()}>
           {(row) => (
             <li class="px-4 sm:px-5 py-3 flex items-center gap-4 border-b border-border last:border-b-0">
               <span
@@ -787,8 +812,10 @@ const DeductionList: Component<{ result: CalculatorResult; ghost: boolean; frequ
                 <p class="text-sm text-fg">{row.label}</p>
                 <p class="text-xs text-fg-subtle truncate">{row.explanation}</p>
               </div>
-              <span class="font-mono text-sm text-fg shrink-0 tabular-nums">
-                −{formatCHF(row.value)}
+              <span class="font-mono text-sm shrink-0 tabular-nums"
+                classList={{ 'text-fg-subtle': props.ghost, 'text-fg': !props.ghost }}
+              >
+                {row.value === undefined ? DASH : `−${formatCHF(row.value)}`}
               </span>
             </li>
           )}

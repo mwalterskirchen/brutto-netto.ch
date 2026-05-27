@@ -40,7 +40,6 @@ export const messages = {
         period === 'monthly' ? 'Monatliche Abzüge' : 'Jährliche Abzüge',
       totalLabel: 'Gesamtabzug',
       ofGross: 'vom Brutto',
-      ghostHint: 'Beispiel. Gib oben deinen Lohn ein.',
       taxDisclaimer: 'Ohne Kantons- und Quellensteuer.',
     },
     viz: {
