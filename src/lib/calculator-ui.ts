@@ -10,9 +10,9 @@ export const COLORS = {
   brutto: '#f5f5f7',
 } as const;
 
-export type DeductionKey = 'ahvIvEo' | 'bvg' | 'alv' | 'nbu' | 'ktg';
+type DeductionKey = 'ahvIvEo' | 'bvg' | 'alv' | 'nbu' | 'ktg';
 
-export interface DeductionMeta {
+interface DeductionMeta {
   key: DeductionKey;
   color: string;
   label: string;
