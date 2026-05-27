@@ -25,16 +25,11 @@ const webApp = {
   codeRepository: 'https://github.com/mwalterskirchen/brutto-netto.ch',
   programmingLanguage: 'TypeScript',
   license: 'https://opensource.org/licenses/MIT',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'CHF' },
 };
-
-const meta = ['name="keywords"'].map(() => null); // unused
 ---
 <Layout title={title} description={description} canonicalPath="/" showHero>
   <Fragment slot="head">
-    <meta
-      name="keywords"
-      content="brutto netto rechner schweiz, lohnrechner schweiz, gehaltsrechner schweiz, nettolohn berechnen, open source lohnrechner, privater gehaltsrechner, datenschutz, AHV rechner, lohnabzüge schweiz 2026"
-    />
     <script type="application/ld+json" set:html={JSON.stringify(webApp)} />
   </Fragment>
   <Calculator client:load />

@@ -13,6 +13,7 @@ interface Props {
 const { title, description, canonicalPath, showHero = false } = Astro.props;
 const hero = t.brand.hero;
 const canonical = new URL(canonicalPath ?? Astro.url.pathname, Astro.site).toString();
+const ogImage = new URL('/og-image.png', Astro.site).toString();
 ---
 <!DOCTYPE html>
 <html lang="de-CH">
@@ -21,18 +22,25 @@ const canonical = new URL(canonicalPath ?? Astro.url.pathname, Astro.site).toStr
     <title>{title}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="author" content="Maximilian Walterskirchen" />
     <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#0a0a0f" />
 
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="brutto-netto.ch" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content="de_CH" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Brutto Netto Rechner Schweiz — lokal, privat, open source" />
 
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content="Brutto Netto Rechner Schweiz — lokal, privat, open source" />
 
     <link rel="icon" type="image/svg+xml" href="/mark.svg" />
     <link rel="canonical" href={canonical} />
@@ -45,7 +53,6 @@ const canonical = new URL(canonicalPath ?? Astro.url.pathname, Astro.site).toStr
           <img src="/mark.svg" alt="" width="28" height="28" aria-hidden="true" />
           <span class="font-mono text-sm tracking-tight text-fg">brutto-netto<span class="text-fg-muted">.ch</span></span>
         </a>
-        {!showHero && <h1 class="sr-only">{t.brand.a11yHeading}</h1>}
       </header>
 
       <main class="flex-1 flex flex-col gap-16 sm:gap-24 lg:gap-32">

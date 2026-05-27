@@ -2,7 +2,6 @@ export const messages = {
   brand: {
     wordmark: 'brutto-netto.ch',
     tagline: 'Schweiz · 2026',
-    a11yHeading: 'Brutto Netto Lohnrechner Schweiz 2026',
     hero: {
       headline: 'Dein Netto. Ohne dass es jemand mitliest.',
       subline:

@@ -13,7 +13,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "deploy": "astro build && wrangler deploy",
-    "deploy:preview": "astro build && wrangler versions upload"
+    "deploy:preview": "astro build && wrangler versions upload",
+    "og": "node scripts/og.mjs"
   },
   "dependencies": {
     "@astrojs/solid-js": "^6.0.1",
@@ -26,8 +27,10 @@
     "solid-motionone": "^1.0.4"
   },
   "devDependencies": {
+    "@astrojs/sitemap": "^3.7.2",
     "@tailwindcss/typography": "^0.5.16",
     "@tailwindcss/vite": "^4.1.12",
+    "sharp": "^0.34.5",
     "tailwindcss": "^4.1.12",
     "typescript": "~6.0.3",
     "vitest": "^4.0.8",

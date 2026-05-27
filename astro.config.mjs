@@ -3,6 +3,7 @@ import { execSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import solid from '@astrojs/solid-js';
+import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
 const REPO_URL = 'https://github.com/mwalterskirchen/brutto-netto.ch';
@@ -35,7 +36,7 @@ const versionUrl = cleanTag
 
 export default defineConfig({
   site: 'https://brutto-netto.ch',
-  integrations: [solid()],
+  integrations: [solid(), sitemap()],
   vite: {
     plugins: [tailwindcss()],
     define: {
