@@ -1,13 +1,8 @@
-import { Show, type Component } from 'solid-js';
+import { type Component } from 'solid-js';
 import { Motion } from 'solid-motionone';
 import type { CalculatorResult, Frequency } from '../lib/calculator';
 import { formatCHF, formatPercent } from '../lib/format';
 import { t } from '../lib/i18n';
-import {
-  medianForFrequency,
-  SWISS_MEDIAN_REFERENCE_YEAR,
-  SWISS_MEDIAN_SOURCE_URL,
-} from '../lib/comparison';
 import { DASH, reveal } from '../lib/calculator-ui';
 import FlowVisualization from './FlowVisualization';
 import DeductionList from './DeductionList';
@@ -51,11 +46,6 @@ const FlowAndReceipt: Component<Props> = (props) => {
             value={props.ghost ? DASH : formatPercent(props.result.totalPct)}
           />
         </div>
-        <Show when={!props.ghost}>
-          <div class="mt-4">
-            <ComparisonLine frequency={props.frequency} />
-          </div>
-        </Show>
       </Motion.header>
 
       <FlowVisualization
@@ -76,26 +66,5 @@ const Stat: Component<{ label: string; value: string }> = (props) => (
     <p class="font-mono text-sm sm:text-base text-fg tabular-nums">{props.value}</p>
   </div>
 );
-
-const ComparisonLine: Component<{ frequency: Frequency }> = (props) => {
-  const median = () => medianForFrequency(props.frequency);
-  const note = () =>
-    props.frequency === 'monthly' ? t.comparison.monthlyNote : t.comparison.annualNote;
-  return (
-    <p class="font-mono text-xs text-fg-subtle flex flex-wrap items-center gap-x-2 gap-y-1">
-      <span>{t.comparison.label(SWISS_MEDIAN_REFERENCE_YEAR)}</span>
-      <span class="text-fg">{formatCHF(median())}</span>
-      <span>· {note()} ·</span>
-      <a
-        href={SWISS_MEDIAN_SOURCE_URL}
-        target="_blank"
-        rel="noopener"
-        class="no-underline text-fg-muted hover:text-fg"
-      >
-        {t.comparison.source} ↗
-      </a>
-    </p>
-  );
-};
 
 export default FlowAndReceipt;
