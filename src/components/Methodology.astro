@@ -46,16 +46,16 @@ const m = t.methodology;
       </div>
       <ul class="flex flex-col">
         {m.sources.items.map((src, i) => (
-          <li class:list={["py-2.5 flex items-center gap-3", i > 0 && "border-t border-border"]}>
+          <li class:list={["py-2.5 flex items-start gap-3", i > 0 && "border-t border-border"]}>
             <a
               href={src.url}
               target="_blank"
               rel="noopener"
-              class="font-mono text-sm text-fg hover:text-fg no-underline flex-1 min-w-0 truncate"
+              class="font-mono text-sm text-fg hover:text-fg no-underline flex-1 min-w-0 break-words"
             >
               {src.label}
             </a>
-            <span class="text-fg-subtle text-sm shrink-0" aria-hidden="true">↗</span>
+            <span class="text-fg-subtle text-sm shrink-0 mt-0.5" aria-hidden="true">↗</span>
           </li>
         ))}
       </ul>
