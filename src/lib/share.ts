@@ -17,14 +17,12 @@ interface Payload {
 }
 
 function toBase64Url(str: string): string {
-  const b64 = typeof btoa !== 'undefined' ? btoa(str) : Buffer.from(str, 'utf-8').toString('base64');
-  return b64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  return btoa(str).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 }
 
 function fromBase64Url(b64u: string): string | null {
   try {
-    const b64 = b64u.replace(/-/g, '+').replace(/_/g, '/');
-    return typeof atob !== 'undefined' ? atob(b64) : Buffer.from(b64, 'base64').toString('utf-8');
+    return atob(b64u.replace(/-/g, '+').replace(/_/g, '/'));
   } catch {
     return null;
   }

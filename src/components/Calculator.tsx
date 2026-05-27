@@ -81,6 +81,24 @@ const Calculator: Component = () => {
     if (hydrated.ktg) setKtgEnabled(true);
   });
 
+  onMount(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      const t = e.target as HTMLElement | null;
+      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+      switch (e.key.toLowerCase()) {
+        case 'm': setFrequency('monthly'); break;
+        case 'y': setFrequency('annual'); break;
+        case 't': setThirteenthEnabled(!thirteenthEnabled()); break;
+        case 'k': setKtgEnabled(!ktgEnabled()); break;
+        default: return;
+      }
+      e.preventDefault();
+    };
+    window.addEventListener('keydown', onKey);
+    onCleanup(() => window.removeEventListener('keydown', onKey));
+  });
+
   const isGhost = createMemo(() => grossInput() === undefined);
 
   // For ghost mode we feed the calc a sensible default so the viz is populated.
@@ -174,8 +192,9 @@ const ControlDeck: Component<ControlDeckProps> = (props) => {
           checked={isMonthly()}
           onChange={onFreqChange}
         />
-        <label for="freq-monthly" role="tab" aria-selected={isMonthly()}>
-          {t.calculator.frequency.monthly}
+        <label for="freq-monthly" role="tab" aria-selected={isMonthly()} aria-keyshortcuts="m">
+          <span>{t.calculator.frequency.monthly}</span>
+          <kbd class="kbd ml-2">M</kbd>
         </label>
         <input
           type="radio"
@@ -186,8 +205,9 @@ const ControlDeck: Component<ControlDeckProps> = (props) => {
           checked={!isMonthly()}
           onChange={onFreqChange}
         />
-        <label for="freq-annual" role="tab" aria-selected={!isMonthly()}>
-          {t.calculator.frequency.annual}
+        <label for="freq-annual" role="tab" aria-selected={!isMonthly()} aria-keyshortcuts="y">
+          <span>{t.calculator.frequency.annual}</span>
+          <kbd class="kbd ml-2">Y</kbd>
         </label>
       </div>
 
@@ -216,6 +236,7 @@ const ControlDeck: Component<ControlDeckProps> = (props) => {
         <ToggleRow
           id="thirteenth"
           label={t.calculator.toggles.thirteenth}
+          shortcut="T"
           checked={props.thirteenth}
           onChange={props.setThirteenth}
         />
@@ -223,6 +244,7 @@ const ControlDeck: Component<ControlDeckProps> = (props) => {
         <ToggleRow
           id="ktg"
           label={t.calculator.toggles.ktg}
+          shortcut="K"
           checked={props.ktg}
           onChange={props.setKtg}
         />
@@ -378,17 +400,24 @@ const Stat: Component<{ label: string; value: string }> = (props) => (
 const ToggleRow: Component<{
   id: string;
   label: string;
+  shortcut?: string;
   checked: boolean;
   onChange: (v: boolean) => void;
 }> = (props) => (
   <label class="flex items-center justify-between gap-3 cursor-pointer text-sm" for={props.id}>
-    <span class="text-fg">{props.label}</span>
+    <span class="flex items-center gap-2 text-fg">
+      <span>{props.label}</span>
+      <Show when={props.shortcut}>
+        <kbd class="kbd">{props.shortcut}</kbd>
+      </Show>
+    </span>
     <span class="relative inline-block shrink-0">
       <input
         id={props.id}
         type="checkbox"
         class="peer sr-only"
         checked={props.checked}
+        aria-keyshortcuts={props.shortcut?.toLowerCase()}
         onChange={(e) => props.onChange(e.currentTarget.checked)}
       />
       <span class="toggle-track" aria-hidden="true">

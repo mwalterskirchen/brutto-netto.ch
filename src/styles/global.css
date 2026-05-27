@@ -214,6 +214,29 @@
     outline-offset: 2px;
   }
 
+  /* Keyboard shortcut chip */
+  .kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.125rem;
+    height: 1.125rem;
+    padding: 0 0.3125rem;
+    border-radius: 4px;
+    border: 1px solid var(--color-border-strong);
+    background: var(--color-bg);
+    color: var(--color-fg-muted);
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .segmented > input:checked + label > .kbd {
+    border-color: var(--color-border-strong);
+    color: var(--color-fg);
+  }
+
   /* Toggle switch */
   .toggle-track {
     position: relative;
