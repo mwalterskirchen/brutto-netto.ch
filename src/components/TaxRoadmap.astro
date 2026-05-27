@@ -1,0 +1,14 @@
+---
+import { messages as t } from '../lib/messages.de';
+const m = t.taxRoadmap;
+const url = 'https://github.com/mwalterskirchen/brutto-netto.ch#roadmap';
+---
+<aside class="w-full max-w-5xl mx-auto -mt-12 sm:-mt-20">
+  <p class="font-mono text-xs text-fg-subtle flex items-center justify-center gap-2 flex-wrap">
+    <span>{m.line}</span>
+    <span aria-hidden="true">·</span>
+    <a href={url} target="_blank" rel="noopener" class="no-underline text-fg-muted hover:text-fg">
+      {m.cta} ↗
+    </a>
+  </p>
+</aside>

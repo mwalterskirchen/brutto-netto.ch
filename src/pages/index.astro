@@ -1,8 +1,10 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Calculator from '../components/Calculator';
-import HowItWorks from '../components/HowItWorks.astro';
+import Methodology from '../components/Methodology.astro';
 import FAQ from '../components/FAQ.astro';
+import TaxRoadmap from '../components/TaxRoadmap.astro';
+import BottomCta from '../components/BottomCta.astro';
 
 const title = 'Brutto Netto Rechner Schweiz 2026 - 100% Privat & Open Source Lohnrechner';
 const description =
@@ -37,6 +39,8 @@ const meta = ['name="keywords"'].map(() => null); // unused
     <script type="application/ld+json" set:html={JSON.stringify(webApp)} />
   </Fragment>
   <Calculator client:load />
-  <HowItWorks />
+  <TaxRoadmap />
+  <Methodology />
   <FAQ />
+  <BottomCta />
 </Layout>

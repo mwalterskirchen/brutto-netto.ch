@@ -23,7 +23,7 @@ export const messages = {
     },
     age: {
       label: 'Alter',
-      placeholder: '—',
+      placeholder: '·',
       unit: 'Jahre',
     },
     toggles: {
@@ -37,7 +37,7 @@ export const messages = {
         period === 'monthly' ? 'Monatliche Abzüge' : 'Jährliche Abzüge',
       totalLabel: 'Gesamtabzug',
       ofGross: 'vom Brutto',
-      ghostHint: 'Beispiel — gib deinen Lohn ein',
+      ghostHint: 'Beispiel · gib deinen Lohn ein',
       taxDisclaimer: 'Einkommens- und Quellensteuer nicht enthalten.',
     },
     viz: {
@@ -51,12 +51,12 @@ export const messages = {
     ahvIvEo: {
       label: 'AHV / IV / EO',
       full: 'Alters-, Invaliden- und Erwerbsersatz',
-      explanation: 'Staatliche Sozialversicherung — finanziert Renten, Invaliditäts- und Erwerbsausfallleistungen.',
+      explanation: 'Staatliche Sozialversicherung. Finanziert Renten, Invaliditäts- und Erwerbsausfallleistungen.',
     },
     bvg: {
       label: 'BVG',
       full: 'Berufliche Vorsorge (2. Säule)',
-      explanation: 'Pensionskasse — dein Beitrag hängt von Alter und koordiniertem Lohn ab.',
+      explanation: 'Pensionskasse. Dein Beitrag hängt von Alter und koordiniertem Lohn ab.',
     },
     alv: {
       label: 'ALV',
@@ -71,7 +71,7 @@ export const messages = {
     ktg: {
       label: 'KTG',
       full: 'Krankentaggeldversicherung',
-      explanation: 'Optional — sichert deinen Lohn bei längerer Krankheit ab.',
+      explanation: 'Optional. Sichert deinen Lohn bei längerer Krankheit ab.',
     },
   },
   sections: {
@@ -90,5 +90,73 @@ export const messages = {
     disclaimer: 'Haftungsausschluss',
     github: 'Open Source auf GitHub',
     builtBy: 'gebaut von',
+  },
+  comparison: {
+    label: (year: number) => `Schweizer Medianlohn ${year}`,
+    monthlyNote: 'Brutto · 100% FTE',
+    annualNote: '× 12 · BFS rapportiert monatlich',
+    source: 'BFS LSE',
+  },
+  share: {
+    cta: 'Link kopieren',
+    copied: 'kopiert',
+    aria: 'Resultat als Link teilen, bleibt lokal',
+  },
+  taxRoadmap: {
+    line: 'Kantonale Einkommens- & Quellensteuer · Roadmap 2027',
+    cta: 'GitHub',
+  },
+  methodology: {
+    eyebrow: 'methodologie',
+    heading: 'Wie wir rechnen, und woher die Zahlen kommen',
+    includes: {
+      heading: 'Eingerechnet',
+      items: [
+        'AHV / IV / EO (5.3% des Bruttolohns)',
+        'BVG / Pensionskasse (altersabhängig, koordinierter Lohn)',
+        'ALV (1.1% bis 148’200 CHF, darüber 0.5% Solidaritätssatz)',
+        'NBU / Nichtberufsunfallversicherung (1.0%)',
+        'KTG / Krankentaggeld (0.8%, optional)',
+      ],
+    },
+    excludes: {
+      heading: 'Nicht eingerechnet',
+      items: [
+        'Kantonale Einkommenssteuer',
+        'Quellensteuer für Nicht-Niedergelassene',
+        'Kirchensteuer',
+        'Individuelle Pensionskassen-Varianten (überobligatorisch)',
+      ],
+    },
+    sources: {
+      heading: 'Quellen & Datenstand',
+      asOf: 'Datenstand · 01.01.2026',
+      items: [
+        { label: 'BSV · Bundesamt für Sozialversicherungen', url: 'https://www.bsv.admin.ch/' },
+        {
+          label: 'ASGA · Beitragstabelle 2026 (PDF)',
+          url: 'https://www.asga.ch/wp-content/uploads/downloads/merkblaetter/merkblaetter-e/renten-und-grenzbetraege_2026_e.pdf',
+        },
+        {
+          label: 'BFS Lohnstrukturerhebung 2024',
+          url: 'https://www.bfs.admin.ch/bfs/de/home/aktuell/neue-veroeffentlichungen.assetdetail.36195847.html',
+        },
+        {
+          label: 'Quellcode · deduction-rates.ts',
+          url: 'https://github.com/mwalterskirchen/brutto-netto.ch/blob/main/src/lib/deduction-rates.ts',
+        },
+        {
+          label: 'Letzte Änderung der Beitragssätze',
+          url: 'https://github.com/mwalterskirchen/brutto-netto.ch/blame/main/src/lib/deduction-rates.ts',
+        },
+      ],
+    },
+  },
+  bottomCta: {
+    eyebrow: 'open source',
+    heading: 'Vertrau uns nicht. Lies den Code.',
+    body: 'Beitragssätze, Berechnung, Datenfluss. Alles offen auf GitHub. Pull Request willkommen.',
+    cta: 'Repository öffnen',
+    url: 'https://github.com/mwalterskirchen/brutto-netto.ch',
   },
 } as const;

@@ -1,0 +1,64 @@
+---
+import { messages as t } from '../lib/messages.de';
+const m = t.methodology;
+---
+<section class="w-full max-w-5xl mx-auto flex flex-col gap-8" aria-labelledby="methodology-heading">
+  <header class="flex flex-col gap-2">
+    <p class="font-mono text-xs uppercase tracking-widest text-fg-subtle">{m.eyebrow}</p>
+    <h2 id="methodology-heading" class="font-sans text-3xl sm:text-4xl text-fg leading-tight tracking-tight">
+      {m.heading}
+    </h2>
+  </header>
+
+  <div class="grid gap-6 md:grid-cols-2 md:items-start">
+    <div class="card p-6 flex flex-col gap-5">
+      <div class="flex flex-col gap-2">
+        <p class="font-mono text-xs uppercase tracking-widest text-fg-muted">{m.includes.heading}</p>
+        <ul class="flex flex-col gap-1.5 text-sm text-fg">
+          {m.includes.items.map((item) => (
+            <li class="flex items-start gap-2.5">
+              <span class="mt-1.5 size-1.5 rounded-full bg-fg-muted shrink-0" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="border-t border-border" />
+
+      <div class="flex flex-col gap-2">
+        <p class="font-mono text-xs uppercase tracking-widest text-fg-muted">{m.excludes.heading}</p>
+        <ul class="flex flex-col gap-1.5 text-sm text-fg-muted">
+          {m.excludes.items.map((item) => (
+            <li class="flex items-start gap-2.5">
+              <span class="mt-1.5 size-1.5 rounded-full bg-fg-subtle shrink-0" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div class="card p-6 flex flex-col gap-4">
+      <div class="flex items-baseline justify-between gap-3 flex-wrap">
+        <p class="font-mono text-xs uppercase tracking-widest text-fg-muted">{m.sources.heading}</p>
+        <p class="font-mono text-xs text-fg">{m.sources.asOf}</p>
+      </div>
+      <ul class="flex flex-col">
+        {m.sources.items.map((src, i) => (
+          <li class:list={["py-2.5 flex items-center gap-3", i > 0 && "border-t border-border"]}>
+            <a
+              href={src.url}
+              target="_blank"
+              rel="noopener"
+              class="font-mono text-sm text-fg hover:text-fg no-underline flex-1 min-w-0 truncate"
+            >
+              {src.label}
+            </a>
+            <span class="text-fg-subtle text-sm shrink-0" aria-hidden="true">↗</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>

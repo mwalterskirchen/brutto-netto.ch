@@ -17,6 +17,12 @@ import { CanvasRenderer } from 'echarts/renderers';
 import { calculate, type CalculatorResult, type Frequency } from '../lib/calculator';
 import { formatCHF, formatPercent } from '../lib/format';
 import { t } from '../lib/i18n';
+import {
+  medianForFrequency,
+  SWISS_MEDIAN_REFERENCE_YEAR,
+  SWISS_MEDIAN_SOURCE_URL,
+} from '../lib/comparison';
+import { buildShareUrl, decodeInputs } from '../lib/share';
 
 echarts.use([SankeyChart, BarChart, TooltipComponent, GridComponent, CanvasRenderer]);
 
@@ -55,6 +61,18 @@ const Calculator: Component = () => {
   const [thirteenthEnabled, setThirteenthEnabled] = createSignal(false);
   const [frequency, setFrequency] = createSignal<Frequency>('monthly');
 
+  // Hydrate from URL hash on first render — pure client-side, no network.
+  onMount(() => {
+    if (!window.location.hash) return;
+    const hydrated = decodeInputs(window.location.hash);
+    if (!hydrated) return;
+    if (hydrated.gross !== undefined) setGrossInput(hydrated.gross);
+    if (hydrated.age !== undefined) setAge(hydrated.age);
+    if (hydrated.frequency) setFrequency(hydrated.frequency);
+    if (hydrated.thirteenth) setThirteenthEnabled(true);
+    if (hydrated.ktg) setKtgEnabled(true);
+  });
+
   const isGhost = createMemo(() => grossInput() === undefined);
 
   // For ghost mode we feed the calc a sensible default so the viz is populated.
@@ -92,7 +110,19 @@ const Calculator: Component = () => {
         ktg={ktgEnabled()}
         setKtg={setKtgEnabled}
       />
-      <FlowAndReceipt result={result()} ghost={isGhost()} gross={displayGross()} frequency={frequency()} />
+      <FlowAndReceipt
+        result={result()}
+        ghost={isGhost()}
+        gross={displayGross()}
+        frequency={frequency()}
+        shareInputs={{
+          gross: grossInput(),
+          age: age(),
+          frequency: frequency(),
+          thirteenth: thirteenthEnabled(),
+          ktg: ktgEnabled(),
+        }}
+      />
     </section>
   );
 };
@@ -244,6 +274,93 @@ const CryptoNumberField: Component<{
   );
 };
 
+const ShareButton: Component<{ inputs: import('../lib/share').ShareableInputs }> = (props) => {
+  const [copied, setCopied] = createSignal(false);
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  onCleanup(() => timer && clearTimeout(timer));
+
+  const onClick = async () => {
+    const url = buildShareUrl(props.inputs);
+    try {
+      await navigator.clipboard.writeText(url);
+    } catch {
+      // Clipboard refused (e.g. insecure context) — still reflect URL in the hash for manual copy.
+    }
+    if (typeof history !== 'undefined') {
+      history.replaceState(null, '', url);
+    }
+    setCopied(true);
+    timer = setTimeout(() => setCopied(false), 1500);
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={t.share.aria}
+      class="inline-flex items-center gap-1.5 px-3 h-7 rounded-pill border border-border bg-surface-elevated hover:border-border-strong text-fg-muted hover:text-fg font-mono text-xs transition-colors"
+    >
+      <Show
+        when={copied()}
+        fallback={
+          <>
+            <ShareIcon />
+            <span>{t.share.cta}</span>
+          </>
+        }
+      >
+        <CheckIcon />
+        <span>{t.share.copied}</span>
+      </Show>
+    </button>
+  );
+};
+
+const ShareIcon: Component = () => (
+  <svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+    <path
+      d="M10 4 6 4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V8M14 2H8m6 0v6m0-6L8 8"
+      stroke="currentColor"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+);
+
+const CheckIcon: Component = () => (
+  <svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+    <path
+      d="M3 8.5 6.5 12 13 4"
+      stroke="currentColor"
+      stroke-width="1.75"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+);
+
+const ComparisonLine: Component<{ frequency: Frequency }> = (props) => {
+  const median = () => medianForFrequency(props.frequency);
+  const note = () =>
+    props.frequency === 'monthly' ? t.comparison.monthlyNote : t.comparison.annualNote;
+  return (
+    <p class="font-mono text-xs text-fg-subtle flex flex-wrap items-center gap-x-2 gap-y-1">
+      <span>{t.comparison.label(SWISS_MEDIAN_REFERENCE_YEAR)}</span>
+      <span class="text-fg">{formatCHF(median())}</span>
+      <span>· {note()} ·</span>
+      <a
+        href={SWISS_MEDIAN_SOURCE_URL}
+        target="_blank"
+        rel="noopener"
+        class="no-underline text-fg-muted hover:text-fg"
+      >
+        {t.comparison.source} ↗
+      </a>
+    </p>
+  );
+};
+
 const Stat: Component<{ label: string; value: string }> = (props) => (
   <div class="flex flex-col gap-0.5 min-w-0">
     <p class="font-mono text-2xs uppercase tracking-wider text-fg-subtle truncate">
@@ -285,6 +402,7 @@ const FlowAndReceipt: Component<{
   ghost: boolean;
   gross: number;
   frequency: Frequency;
+  shareInputs: import('../lib/share').ShareableInputs;
 }> = (props) => {
   const periodSuffix = () => (props.frequency === 'monthly' ? '/Monat' : '/Jahr');
   const totalPct = () => props.result.totalPct;
@@ -314,6 +432,12 @@ const FlowAndReceipt: Component<{
           <Stat label={t.calculator.receipt.totalLabel} value={`−${formatCHF(props.result.total)}`} />
           <Stat label={t.calculator.receipt.ofGross} value={formatPercent(totalPct())} />
         </div>
+        <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
+          <ComparisonLine frequency={props.frequency} />
+          <Show when={!props.ghost}>
+            <ShareButton inputs={props.shareInputs} />
+          </Show>
+        </div>
       </header>
 
       <FlowVisualization
@@ -324,8 +448,6 @@ const FlowAndReceipt: Component<{
       />
 
       <DeductionList result={props.result} ghost={props.ghost} frequency={props.frequency} />
-
-      <p class="font-mono text-xs text-fg-subtle">{t.calculator.receipt.taxDisclaimer}</p>
     </div>
   );
 };

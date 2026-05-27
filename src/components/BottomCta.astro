@@ -1,0 +1,23 @@
+---
+import { messages as t } from '../lib/messages.de';
+const m = t.bottomCta;
+---
+<section class="w-full max-w-5xl mx-auto" aria-labelledby="cta-heading">
+  <div class="card p-8 sm:p-12 flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:justify-between">
+    <div class="flex flex-col gap-2 max-w-2xl">
+      <p class="font-mono text-xs uppercase tracking-widest text-fg-subtle">{m.eyebrow}</p>
+      <h2 id="cta-heading" class="font-sans text-2xl sm:text-3xl text-fg leading-tight tracking-tight">
+        {m.heading}
+      </h2>
+      <p class="text-sm text-fg-muted">{m.body}</p>
+    </div>
+    <a
+      href={m.url}
+      target="_blank"
+      rel="noopener"
+      class="shrink-0 inline-flex items-center gap-2 px-5 h-control rounded-control bg-fg text-bg font-mono text-sm no-underline hover:opacity-90 transition-opacity"
+    >
+      {m.cta} ↗
+    </a>
+  </div>
+</section>
