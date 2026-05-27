@@ -330,6 +330,22 @@
     padding: 0 1rem 0.875rem;
     color: var(--color-fg-muted);
   }
+
+  /* Smooth open/close — uses ::details-content + interpolate-size.
+     Browsers without support snap open as before. */
+  details.faq-item {
+    interpolate-size: allow-keywords;
+  }
+  details.faq-item::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition:
+      block-size var(--duration-base) var(--ease-out-soft),
+      content-visibility var(--duration-base) allow-discrete;
+  }
+  details.faq-item[open]::details-content {
+    block-size: auto;
+  }
 }
 
 @keyframes jitter {
