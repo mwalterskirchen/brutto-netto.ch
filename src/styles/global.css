@@ -214,9 +214,9 @@
     outline-offset: 2px;
   }
 
-  /* Keyboard shortcut chip */
+  /* Keyboard shortcut chip — desktop only */
   .kbd {
-    display: inline-flex;
+    display: none;
     align-items: center;
     justify-content: center;
     min-width: 1.125rem;
@@ -231,6 +231,11 @@
     line-height: 1;
     text-transform: uppercase;
     letter-spacing: 0.04em;
+  }
+  @media (min-width: 640px) {
+    .kbd {
+      display: inline-flex;
+    }
   }
   .segmented > input:checked + label > .kbd {
     border-color: var(--color-border-strong);
