@@ -25,8 +25,11 @@
   --color-ktg: #06d6a0;
   --color-netto: #ffffff;
 
+  /* Brand accent — Swiss flag red, used for selection, caret, toggles */
+  --color-accent: #e8332a;
+
   /* Backwards-compat for any older usages */
-  --color-primary: var(--color-netto);
+  --color-primary: var(--color-accent);
   --color-primary-fg: var(--color-bg);
 
   /* Type */
@@ -109,8 +112,8 @@
     text-decoration-color: var(--color-fg);
   }
   ::selection {
-    background: var(--color-ktg);
-    color: var(--color-bg);
+    background: var(--color-accent);
+    color: var(--color-fg);
   }
   /* tabular figures for any number in mono */
   .font-mono,
@@ -142,7 +145,7 @@
     font-variant-numeric: tabular-nums;
     font-size: 1rem;
     letter-spacing: 0.02em;
-    caret-color: var(--color-ktg);
+    caret-color: var(--color-accent);
     transition:
       border-color var(--duration-fast) var(--ease-out-soft),
       background-color var(--duration-fast) var(--ease-out-soft);
@@ -236,12 +239,12 @@
       background-color var(--duration-fast) var(--ease-out-soft);
   }
   input:checked + .toggle-track {
-    background: color-mix(in oklab, var(--color-ktg) 25%, var(--color-surface-elevated));
-    border-color: color-mix(in oklab, var(--color-ktg) 60%, transparent);
+    background: color-mix(in oklab, var(--color-accent) 25%, var(--color-surface-elevated));
+    border-color: color-mix(in oklab, var(--color-accent) 60%, transparent);
   }
   input:checked + .toggle-track > .toggle-thumb {
     transform: translate(1.0625rem, -50%);
-    background: var(--color-ktg);
+    background: var(--color-accent);
   }
   input:focus-visible + .toggle-track {
     outline: 2px solid var(--color-netto);

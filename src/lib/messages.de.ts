@@ -4,14 +4,14 @@ export const messages = {
     tagline: 'Schweiz · 2026',
     a11yHeading: 'Brutto Netto Lohnrechner Schweiz 2026',
     hero: {
-      headline: 'Lohn rechnen, lokal.',
+      headline: 'Dein Netto. Ohne dass es jemand mitliest.',
       subline:
-        'Keine Daten verlassen den Browser. Open Source. Berechnung läuft komplett in Ihrem Browser.',
+        'Brutto Netto für die Schweiz, 2026. Die Berechnung läuft in deinem Browser. Kein Server, kein Tracking, kein Account. Open Source.',
     },
   },
   privacy: {
     badge: '0 requests',
-    badgeNote: '100% in deinem Browser',
+    badgeNote: 'läuft lokal',
   },
   calculator: {
     frequency: {
@@ -41,8 +41,8 @@ export const messages = {
         period === 'monthly' ? 'Monatliche Abzüge' : 'Jährliche Abzüge',
       totalLabel: 'Gesamtabzug',
       ofGross: 'vom Brutto',
-      ghostHint: 'Beispiel · gib deinen Lohn ein',
-      taxDisclaimer: 'Einkommens- und Quellensteuer nicht enthalten.',
+      ghostHint: 'Beispiel. Gib oben deinen Lohn ein.',
+      taxDisclaimer: 'Ohne Kantons- und Quellensteuer.',
     },
     viz: {
       sankeyAria: 'Flussdiagramm der Lohnabzüge',
@@ -104,11 +104,11 @@ export const messages = {
   share: {
     cta: 'Link kopieren',
     copied: 'kopiert',
-    aria: 'Resultat als Link teilen, bleibt lokal',
+    aria: 'Resultat als Link teilen. Die Daten stecken in der URL, nicht auf einem Server.',
   },
   taxRoadmap: {
-    line: 'Kantonale Einkommens- & Quellensteuer · Roadmap 2027',
-    cta: 'GitHub',
+    line: 'Kantons- und Quellensteuer kommen 2027.',
+    cta: 'Auf GitHub verfolgen',
   },
   methodology: {
     eyebrow: 'methodologie',
@@ -159,8 +159,8 @@ export const messages = {
   bottomCta: {
     eyebrow: 'open source',
     heading: 'Vertrau uns nicht. Lies den Code.',
-    body: 'Beitragssätze, Berechnung, Datenfluss. Alles offen auf GitHub. Pull Request willkommen.',
-    cta: 'Repository öffnen',
+    body: 'Beitragssätze, Berechnungslogik, jeder Datenfluss. Alles offen auf GitHub. PRs willkommen.',
+    cta: 'Code lesen',
     url: 'https://github.com/mwalterskirchen/brutto-netto.ch',
   },
 } as const;

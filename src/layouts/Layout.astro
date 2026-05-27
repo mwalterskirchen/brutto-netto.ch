@@ -13,7 +13,6 @@ interface Props {
 const { title, description, canonicalPath, showHero = false } = Astro.props;
 const hero = t.brand.hero;
 const canonical = new URL(canonicalPath ?? Astro.url.pathname, Astro.site).toString();
-const ogImage = new URL('/og_image.png', Astro.site).toString();
 ---
 <!DOCTYPE html>
 <html lang="de-CH">
@@ -29,19 +28,13 @@ const ogImage = new URL('/og_image.png', Astro.site).toString();
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={ogImage} />
-    <meta property="og:image:alt" content="Brutto Netto Rechner Schweiz - 100% Privat & Open Source" />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="de_CH" />
 
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImage} />
 
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="/mark.svg" />
     <link rel="canonical" href={canonical} />
     <slot name="head" />
   </head>

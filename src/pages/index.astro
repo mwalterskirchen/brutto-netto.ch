@@ -3,12 +3,11 @@ import Layout from '../layouts/Layout.astro';
 import Calculator from '../components/Calculator';
 import Methodology from '../components/Methodology.astro';
 import FAQ from '../components/FAQ.astro';
-import TaxRoadmap from '../components/TaxRoadmap.astro';
 import BottomCta from '../components/BottomCta.astro';
 
-const title = 'Brutto Netto Rechner Schweiz 2026 - 100% Privat & Open Source Lohnrechner';
+const title = 'Brutto Netto Rechner Schweiz 2026. Lokal, Privat, Open Source.';
 const description =
-  '100% privater Open Source Brutto Netto Rechner Schweiz 2026: Berechnen Sie Ihren Nettolohn mit allen AHV, IV, ALV, BVG Abzügen. Alle Daten bleiben in Ihrem Browser – transparent & sicher!';
+  'Berechne deinen Nettolohn für 2026 mit allen Sozialabzügen (AHV, IV, EO, ALV, BVG, NBU, KTG). Die Berechnung läuft komplett in deinem Browser, keine Daten verlassen dein Gerät. Open Source.';
 
 const webApp = {
   '@context': 'https://schema.org',
@@ -18,7 +17,7 @@ const webApp = {
   operatingSystem: 'Any',
   browserRequirements: 'Requires JavaScript',
   description:
-    '100% privater Open Source Lohnrechner für die Schweiz. Berechnen Sie Ihren Nettolohn aus dem Bruttolohn mit allen Sozialversicherungsabzügen (AHV, IV, EO, ALV, BVG, NBU) für 2026. Alle Berechnungen finden ausschliesslich in Ihrem Browser statt – Ihre Daten werden niemals an einen Server übertragen.',
+    'Open Source Lohnrechner für die Schweiz. Berechne deinen Nettolohn aus dem Bruttolohn mit allen Sozialversicherungsabzügen (AHV, IV, EO, ALV, BVG, NBU) für 2026. Die Berechnung läuft komplett in deinem Browser, deine Daten werden niemals an einen Server übertragen.',
   isAccessibleForFree: true,
   inLanguage: 'de-CH',
   url: 'https://brutto-netto.ch',
@@ -39,7 +38,6 @@ const meta = ['name="keywords"'].map(() => null); // unused
     <script type="application/ld+json" set:html={JSON.stringify(webApp)} />
   </Fragment>
   <Calculator client:load />
-  <TaxRoadmap />
   <Methodology />
   <FAQ />
   <BottomCta />
