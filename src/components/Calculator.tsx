@@ -11,10 +11,7 @@ import {
 } from 'solid-js';
 import { Motion } from 'solid-motionone';
 import { debounce } from '@solid-primitives/scheduled';
-import * as echarts from 'echarts/core';
-import { SankeyChart, BarChart } from 'echarts/charts';
-import { TooltipComponent, GridComponent } from 'echarts/components';
-import { CanvasRenderer } from 'echarts/renderers';
+import type { ECharts } from 'echarts/core';
 import { calculate, type CalculatorResult, type Frequency } from '../lib/calculator';
 import { formatCHF, formatPercent } from '../lib/format';
 import { t } from '../lib/i18n';
@@ -23,9 +20,6 @@ import {
   SWISS_MEDIAN_REFERENCE_YEAR,
   SWISS_MEDIAN_SOURCE_URL,
 } from '../lib/comparison';
-import { buildShareUrl, decodeInputs } from '../lib/share';
-
-echarts.use([SankeyChart, BarChart, TooltipComponent, GridComponent, CanvasRenderer]);
 
 const COLORS = {
   ahvIvEo: '#ff6b35',
@@ -68,18 +62,6 @@ const Calculator: Component = () => {
   const [ktgEnabled, setKtgEnabled] = createSignal(false);
   const [thirteenthEnabled, setThirteenthEnabled] = createSignal(false);
   const [frequency, setFrequency] = createSignal<Frequency>('monthly');
-
-  // Hydrate from URL hash on first render — pure client-side, no network.
-  onMount(() => {
-    if (!window.location.hash) return;
-    const hydrated = decodeInputs(window.location.hash);
-    if (!hydrated) return;
-    if (hydrated.gross !== undefined) setGrossInput(hydrated.gross);
-    if (hydrated.age !== undefined) setAge(hydrated.age);
-    if (hydrated.frequency) setFrequency(hydrated.frequency);
-    if (hydrated.thirteenth) setThirteenthEnabled(true);
-    if (hydrated.ktg) setKtgEnabled(true);
-  });
 
   onMount(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -136,13 +118,6 @@ const Calculator: Component = () => {
         ghost={isGhost()}
         gross={grossInput() ?? 0}
         frequency={frequency()}
-        shareInputs={{
-          gross: grossInput(),
-          age: age(),
-          frequency: frequency(),
-          thirteenth: thirteenthEnabled(),
-          ktg: ktgEnabled(),
-        }}
       />
     </section>
   );
@@ -297,70 +272,6 @@ const CryptoNumberField: Component<{
   );
 };
 
-const ShareButton: Component<{ inputs: import('../lib/share').ShareableInputs }> = (props) => {
-  const [copied, setCopied] = createSignal(false);
-  let timer: ReturnType<typeof setTimeout> | undefined;
-  onCleanup(() => timer && clearTimeout(timer));
-
-  const onClick = async () => {
-    const url = buildShareUrl(props.inputs);
-    try {
-      await navigator.clipboard.writeText(url);
-    } catch {
-      // Clipboard refused (e.g. insecure context) — still reflect URL in the hash for manual copy.
-    }
-    history.replaceState(null, '', url);
-    setCopied(true);
-    timer = setTimeout(() => setCopied(false), 1500);
-  };
-
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-label={t.share.aria}
-      class="inline-flex items-center gap-1.5 px-3 h-7 rounded-pill border border-border bg-surface-elevated hover:border-border-strong text-fg-muted hover:text-fg font-mono text-xs transition-colors"
-    >
-      <Show
-        when={copied()}
-        fallback={
-          <>
-            <ShareIcon />
-            <span>{t.share.cta}</span>
-          </>
-        }
-      >
-        <CheckIcon />
-        <span>{t.share.copied}</span>
-      </Show>
-    </button>
-  );
-};
-
-const ShareIcon: Component = () => (
-  <svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-    <path
-      d="M10 4 6 4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V8M14 2H8m6 0v6m0-6L8 8"
-      stroke="currentColor"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-  </svg>
-);
-
-const CheckIcon: Component = () => (
-  <svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-    <path
-      d="M3 8.5 6.5 12 13 4"
-      stroke="currentColor"
-      stroke-width="1.75"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-  </svg>
-);
-
 const ComparisonLine: Component<{ frequency: Frequency }> = (props) => {
   const median = () => medianForFrequency(props.frequency);
   const note = () =>
@@ -440,7 +351,6 @@ const FlowAndReceipt: Component<{
   ghost: boolean;
   gross: number;
   frequency: Frequency;
-  shareInputs: import('../lib/share').ShareableInputs;
 }> = (props) => {
   const periodSuffix = () => (props.frequency === 'monthly' ? '/Monat' : '/Jahr');
   const totalPct = () => props.result.totalPct;
@@ -478,9 +388,8 @@ const FlowAndReceipt: Component<{
           />
         </div>
         <Show when={!props.ghost}>
-          <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
+          <div class="mt-4">
             <ComparisonLine frequency={props.frequency} />
-            <ShareButton inputs={props.shareInputs} />
           </div>
         </Show>
       </Motion.header>
@@ -498,7 +407,7 @@ const FlowAndReceipt: Component<{
 };
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   FlowVisualization — Sankey (desktop) / Waterfall (mobile)
+   FlowVisualization — Sankey (desktop) / Donut (mobile)
    ───────────────────────────────────────────────────────────────────────────── */
 
 const FlowVisualization: Component<{
@@ -520,7 +429,7 @@ const FlowVisualization: Component<{
   return (
     <Motion.div class="card p-4 sm:p-6" {...reveal(0.3)}>
       <Show when={!props.ghost} fallback={<SkeletonViz />}>
-        <Show when={isWide()} fallback={<Waterfall result={props.result} gross={props.gross} />}>
+        <Show when={isWide()} fallback={<Donut result={props.result} gross={props.gross} />}>
           <Sankey result={props.result} gross={props.gross} />
         </Show>
       </Show>
@@ -591,7 +500,8 @@ function buildSankeyData(result: CalculatorResult, gross: number) {
 
 const Sankey: Component<{ result: CalculatorResult; gross: number }> = (props) => {
   let containerRef: HTMLDivElement | undefined;
-  let chart: echarts.ECharts | undefined;
+  let chart: ECharts | undefined;
+  let disposed = false;
 
   const apply = (data: ReturnType<typeof buildSankeyData>) => {
     if (!chart) return;
@@ -642,17 +552,29 @@ const Sankey: Component<{ result: CalculatorResult; gross: number }> = (props) =
 
   const debouncedApply = debounce((data: ReturnType<typeof buildSankeyData>) => apply(data), 150);
 
-  onMount(() => {
+  let ro: ResizeObserver | undefined;
+
+  onMount(async () => {
     if (!containerRef) return;
-    chart = echarts.init(containerRef, null, { renderer: 'canvas' });
+    const [core, charts, components, renderers] = await Promise.all([
+      import('echarts/core'),
+      import('echarts/charts'),
+      import('echarts/components'),
+      import('echarts/renderers'),
+    ]);
+    if (disposed || !containerRef) return;
+    core.use([charts.SankeyChart, components.TooltipComponent, renderers.CanvasRenderer]);
+    chart = core.init(containerRef, null, { renderer: 'canvas' });
     apply(buildSankeyData(props.result, props.gross));
-    const ro = new ResizeObserver(() => chart?.resize());
+    ro = new ResizeObserver(() => chart?.resize());
     ro.observe(containerRef);
-    onCleanup(() => {
-      ro.disconnect();
-      chart?.dispose();
-      chart = undefined;
-    });
+  });
+
+  onCleanup(() => {
+    disposed = true;
+    ro?.disconnect();
+    chart?.dispose();
+    chart = undefined;
   });
 
   createEffect(() => {
@@ -670,104 +592,189 @@ const Sankey: Component<{ result: CalculatorResult; gross: number }> = (props) =
   );
 };
 
+function tooltipChip(opts: {
+  color: string;
+  title: string;
+  line?: string;
+  explanation?: string;
+}): string {
+  return `
+    <div style="display:flex;flex-direction:column;gap:6px;min-width:220px;font-family:Geist Variable,system-ui;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="width:8px;height:8px;border-radius:99px;background:${opts.color};box-shadow:0 0 0 3px ${opts.color}22"></span>
+        <strong style="font-weight:600">${opts.title}</strong>
+      </div>
+      ${opts.line ? `<div style="font-family:Geist Mono Variable,ui-monospace;font-size:13px;color:#f5f5f7;">${opts.line}</div>` : ''}
+      ${opts.explanation ? `<div style="color:#8a8a94;font-size:12px;line-height:1.4;">${opts.explanation}</div>` : ''}
+    </div>`;
+}
+
 function sankeyTooltip(params: any, gross: number): string {
-  // Node hover (data has .name and no .source/target distinction we care about)
   if (params.dataType === 'node') {
     const meta = DEDUCTION_META.find((d) => d.key === params.name);
-    if (meta) {
-      return `
-        <div style="display:flex;flex-direction:column;gap:6px;min-width:220px;font-family:Geist Variable,system-ui;">
-          <div style="display:flex;align-items:center;gap:8px;">
-            <span style="width:8px;height:8px;border-radius:99px;background:${meta.color};box-shadow:0 0 0 3px ${meta.color}22"></span>
-            <strong style="font-weight:600">${meta.label}</strong>
-          </div>
-          <div style="color:#8a8a94;font-size:12px;line-height:1.4;">${meta.explanation}</div>
-        </div>`;
-    }
+    if (meta) return tooltipChip({ color: meta.color, title: meta.label, explanation: meta.explanation });
     return `<strong>${NODE_LABEL_BY_KEY[params.name] ?? params.name}</strong>`;
   }
-  // Edge hover
   if (params.dataType === 'edge') {
     const value = params.value as number;
     const pct = gross > 0 ? value / gross : 0;
     const meta = DEDUCTION_META.find((d) => d.key === params.data.target);
     const color = meta?.color ?? COLORS.netto;
     const title = meta?.label ?? NODE_LABEL_BY_KEY[params.data.target] ?? params.data.target;
-    const expl = meta?.explanation ?? '';
-    return `
-      <div style="display:flex;flex-direction:column;gap:6px;min-width:220px;font-family:Geist Variable,system-ui;">
-        <div style="display:flex;align-items:center;gap:8px;">
-          <span style="width:8px;height:8px;border-radius:99px;background:${color};box-shadow:0 0 0 3px ${color}22"></span>
-          <strong style="font-weight:600">${title}</strong>
-        </div>
-        <div style="font-family:Geist Mono Variable,ui-monospace;font-size:13px;color:#f5f5f7;">
-          ${formatCHF(value)} · ${formatPercent(pct)}
-        </div>
-        ${expl ? `<div style="color:#8a8a94;font-size:12px;line-height:1.4;">${expl}</div>` : ''}
-      </div>`;
+    return tooltipChip({
+      color,
+      title,
+      line: `${formatCHF(value)} · ${formatPercent(pct)}`,
+      explanation: meta?.explanation,
+    });
   }
   return '';
 }
 
-/* Waterfall (mobile): pure CSS bars — simpler, robust, no ECharts trick needed. */
-const Waterfall: Component<{ result: CalculatorResult; gross: number }> = (props) => {
-  const segments = createMemo(() => {
-    const items = DEDUCTION_META.map((m) => ({
-      key: m.key,
-      color: m.color,
-      label: m.label,
-      value: props.result[m.key],
-      explanation: m.explanation,
-    })).filter((s) => s.value > 0);
-    const netto = Math.max(0, props.result.net ?? props.gross - props.result.total);
-    return { items, netto };
+/* ─────────────────────────────────────────────────────────────────────────────
+   Donut (mobile): netto retention ring with deduction wedges
+   ───────────────────────────────────────────────────────────────────────────── */
+
+const DONUT_NETTO = '__netto';
+
+function buildDonutData(result: CalculatorResult, gross: number) {
+  const netto = Math.max(0, result.net ?? gross - result.total);
+  const slices: { key: string; name: string; value: number; itemStyle: { color: string } }[] = [
+    {
+      key: DONUT_NETTO,
+      name: t.calculator.viz.nodeNet,
+      value: netto,
+      itemStyle: { color: COLORS.netto },
+    },
+  ];
+  for (const meta of DEDUCTION_META) {
+    const v = result[meta.key];
+    if (v <= 0) continue;
+    slices.push({
+      key: meta.key,
+      name: meta.label,
+      value: v,
+      itemStyle: { color: meta.color },
+    });
+  }
+  const netPct = gross > 0 ? netto / gross : 0;
+  return { slices, netto, netPct, gross };
+}
+
+function donutTooltip(params: any, gross: number): string {
+  const key: string = params.data?.key ?? '';
+  const value = params.value as number;
+  const pct = gross > 0 ? value / gross : 0;
+  if (key === DONUT_NETTO) {
+    return tooltipChip({
+      color: COLORS.netto,
+      title: t.calculator.viz.nodeNet,
+      line: `${formatCHF(value)} · ${formatPercent(pct)}`,
+    });
+  }
+  const meta = DEDUCTION_META.find((d) => d.key === key);
+  if (!meta) return '';
+  return tooltipChip({
+    color: meta.color,
+    title: meta.label,
+    line: `${formatCHF(value)} · ${formatPercent(pct)}`,
+    explanation: meta.explanation,
+  });
+}
+
+const Donut: Component<{ result: CalculatorResult; gross: number }> = (props) => {
+  let containerRef: HTMLDivElement | undefined;
+  let chart: ECharts | undefined;
+  let disposed = false;
+  let ro: ResizeObserver | undefined;
+
+  const data = createMemo(() => buildDonutData(props.result, props.gross));
+
+  const apply = (d: ReturnType<typeof buildDonutData>) => {
+    if (!chart) return;
+    chart.setOption(
+      {
+        backgroundColor: 'transparent',
+        tooltip: {
+          trigger: 'item',
+          backgroundColor: '#1c1c26',
+          borderColor: '#3a3a48',
+          borderWidth: 1,
+          textStyle: { color: '#f5f5f7', fontFamily: 'Geist Variable, system-ui, sans-serif' },
+          extraCssText: 'box-shadow: 0 12px 30px -10px rgba(0,0,0,0.6); border-radius: 10px;',
+          formatter: (params: any) => donutTooltip(params, d.gross),
+        },
+        series: [
+          {
+            type: 'pie',
+            radius: ['58%', '86%'],
+            center: ['50%', '50%'],
+            avoidLabelOverlap: true,
+            label: { show: false },
+            labelLine: { show: false },
+            itemStyle: { borderColor: '#14141c', borderWidth: 2 },
+            selectedMode: 'single',
+            selectedOffset: 6,
+            data: d.slices,
+            animationDuration: 500,
+            animationDurationUpdate: 350,
+            animationEasing: 'cubicOut',
+            animationEasingUpdate: 'cubicOut',
+          },
+        ],
+      },
+      { notMerge: false, lazyUpdate: true },
+    );
+  };
+
+  const debouncedApply = debounce((d: ReturnType<typeof buildDonutData>) => apply(d), 150);
+
+  onMount(async () => {
+    if (!containerRef) return;
+    const [core, charts, components, renderers] = await Promise.all([
+      import('echarts/core'),
+      import('echarts/charts'),
+      import('echarts/components'),
+      import('echarts/renderers'),
+    ]);
+    if (disposed || !containerRef) return;
+    core.use([charts.PieChart, components.TooltipComponent, renderers.CanvasRenderer]);
+    chart = core.init(containerRef, null, { renderer: 'canvas' });
+    apply(data());
+    ro = new ResizeObserver(() => chart?.resize());
+    ro.observe(containerRef);
+  });
+
+  onCleanup(() => {
+    disposed = true;
+    ro?.disconnect();
+    chart?.dispose();
+    chart = undefined;
+  });
+
+  createEffect(() => {
+    debouncedApply(data());
   });
 
   return (
-    <div
-      class="flex flex-col gap-3"
-      role="img"
-      aria-label={t.calculator.viz.waterfallAria}
-    >
-      {/* Brutto baseline */}
-      <div class="flex items-center justify-between font-mono text-xs uppercase tracking-wider">
-        <span class="text-fg-muted">{t.calculator.viz.nodeGross}</span>
-        <span class="text-fg">{formatCHF(props.gross)}</span>
-      </div>
-      <div class="h-2 rounded-full bg-fg" />
-      <For each={segments().items}>
-        {(s) => (
-          <div class="flex flex-col gap-1.5">
-            <div class="flex items-center justify-between font-mono text-xs">
-              <span class="flex items-center gap-2 text-fg-muted">
-                <span class="size-1.5 rounded-full" style={{ 'background-color': s.color }} />
-                {s.label}
-              </span>
-              <span class="text-fg">−{formatCHF(s.value)}</span>
-            </div>
-            <div class="h-2 rounded-full bg-surface-elevated overflow-hidden">
-              <div
-                class="h-full rounded-full transition-[width] duration-300"
-                style={{
-                  width: `${Math.min(100, props.gross > 0 ? (s.value / props.gross) * 100 : 0)}%`,
-                  'background-color': s.color,
-                }}
-              />
-            </div>
-          </div>
-        )}
-      </For>
-      {/* Netto outcome */}
-      <div class="mt-2 flex items-center justify-between font-mono text-xs uppercase tracking-wider">
-        <span class="text-fg">{t.calculator.viz.nodeNet}</span>
-        <span class="text-fg">{formatCHF(segments().netto)}</span>
-      </div>
+    <div class="relative w-full h-viz">
       <div
-        class="h-3 rounded-full bg-fg transition-[width] duration-300"
-        style={{
-          width: `${Math.min(100, props.gross > 0 ? (segments().netto / props.gross) * 100 : 0)}%`,
-        }}
+        ref={containerRef}
+        class="absolute inset-0"
+        role="img"
+        aria-label={t.calculator.viz.donutAria}
       />
+      <div class="absolute inset-0 flex flex-col items-center justify-center gap-1 pointer-events-none">
+        <span class="font-mono text-2xs uppercase tracking-widest text-fg-muted">
+          {t.calculator.viz.nodeNet}
+        </span>
+        <span class="text-2xl font-medium text-fg tabular-nums">
+          {formatCHF(data().netto)}
+        </span>
+        <span class="font-mono text-xs text-fg-muted tabular-nums">
+          {formatPercent(data().netPct)}
+        </span>
+      </div>
     </div>
   );
 };

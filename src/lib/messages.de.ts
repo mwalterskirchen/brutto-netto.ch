@@ -44,7 +44,7 @@ export const messages = {
     },
     viz: {
       sankeyAria: 'Flussdiagramm der Lohnabzüge',
-      waterfallAria: 'Wasserfall-Diagramm der Lohnabzüge',
+      donutAria: 'Kreisdiagramm der Lohnabzüge',
       nodeGross: 'Brutto',
       nodeNet: 'Netto',
     },
@@ -98,11 +98,6 @@ export const messages = {
     monthlyNote: 'Brutto · 100% FTE',
     annualNote: '× 12 · BFS rapportiert monatlich',
     source: 'BFS LSE',
-  },
-  share: {
-    cta: 'Link kopieren',
-    copied: 'kopiert',
-    aria: 'Resultat als Link teilen. Die Daten stecken in der URL, nicht auf einem Server.',
   },
   taxRoadmap: {
     line: 'Kantons- und Quellensteuer kommen 2027.',
