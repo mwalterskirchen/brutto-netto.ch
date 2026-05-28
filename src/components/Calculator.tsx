@@ -14,7 +14,12 @@ const Calculator: Component = () => {
     const onKey = (e: KeyboardEvent) => {
       if (e.metaKey || e.ctrlKey || e.altKey) return;
       const target = e.target as HTMLElement | null;
-      if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) return;
+      const isTextInput =
+        target &&
+        ((target.tagName === 'INPUT' && (target as HTMLInputElement).type !== 'number') ||
+          target.tagName === 'TEXTAREA' ||
+          target.isContentEditable);
+      if (isTextInput) return;
       switch (e.key.toLowerCase()) {
         case 'm': setFrequency('monthly'); break;
         case 'y': setFrequency('annual'); break;
