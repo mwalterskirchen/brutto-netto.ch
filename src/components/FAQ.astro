@@ -1,0 +1,51 @@
+---
+const items = [
+  {
+    q: 'Welche Abzüge werden in der Schweiz vom Lohn abgezogen?',
+    text: 'AHV/IV/EO (5.3%), ALV (1.1% bis 148’200 CHF, darüber 0.5% Solidaritätssatz), BVG/Pensionskasse (altersabhängig), NBU (1.0%) und optional KTG (0.8%). Kantons- und Quellensteuer sind hier nicht enthalten, die hängen vom Wohnkanton ab.',
+  },
+  {
+    q: 'Was ist der 13. Monatslohn?',
+    text: 'Eine zusätzliche Lohnzahlung in Höhe eines Monatslohns, meist im November oder Dezember. Sozialversicherungspflichtig. Aktivierst du ihn, rechnet der Rechner mit 13 statt 12 Monatslöhnen pro Jahr.',
+  },
+  {
+    q: 'Bleiben meine Lohndaten wirklich privat?',
+    text: 'Ja. Die Berechnung läuft in deinem Browser, nichts wird an einen Server geschickt. Öffne das Network-Panel deiner Entwicklertools: 0 Requests. Der Quellcode liegt offen auf GitHub.',
+  },
+  {
+    q: 'Warum gibt es diesen Rechner?',
+    text: 'Ich habe einen Brutto-Netto-Rechner für die Schweiz gesucht, dem ich meine Lohndaten anvertrauen wollte. Keiner war Open Source, bei keinem war klar, was mit den Daten passiert. Also habe ich diesen gebaut: lokal, transparent, Open Source.',
+  },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: items.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.text },
+  })),
+};
+---
+
+<section class="flex flex-col gap-8 reveal-on-scroll" aria-labelledby="faq-heading">
+  <header class="flex flex-col gap-2">
+    <p class="font-mono text-xs uppercase tracking-widest text-fg-subtle">fragen &amp; antworten</p>
+    <h2 id="faq-heading" class="font-sans text-2xl sm:text-3xl md:text-4xl text-fg leading-tight tracking-tight text-balance">
+      Was du wissen solltest
+    </h2>
+  </header>
+  <div class="flex flex-col gap-3">
+    {items.map((item) => (
+      <details class="faq-item">
+        <summary>{item.q}</summary>
+        <div class="faq-body">
+          <p>{item.text}</p>
+        </div>
+      </details>
+    ))}
+  </div>
+</section>
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

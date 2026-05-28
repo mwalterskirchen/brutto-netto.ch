@@ -1,0 +1,377 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/geist/index.css';
+@import '@fontsource-variable/geist-mono/index.css';
+@plugin "@tailwindcss/typography";
+
+@theme {
+  /* Surfaces */
+  --color-bg: #0a0a0f;
+  --color-surface: #14141c;
+  --color-surface-elevated: #1c1c26;
+  --color-surface-hover: #232330;
+  --color-border: #2a2a36;
+  --color-border-strong: #3a3a48;
+
+  /* Foreground */
+  --color-fg: #f5f5f7;
+  --color-fg-muted: #8a8a94;
+  --color-fg-subtle: #5a5a64;
+
+  /* Accents — per-deduction spectrum */
+  --color-ahv: #ff6b35;
+  --color-bvg: #4cc9f0;
+  --color-alv: #b5179e;
+  --color-nbu: #f7b801;
+  --color-ktg: #06d6a0;
+  --color-netto: #ffffff;
+
+  /* Brand accent — Swiss flag red, used for selection, caret, toggles */
+  --color-accent: #e8332a;
+
+  /* Backwards-compat for any older usages */
+  --color-primary: var(--color-accent);
+  --color-primary-fg: var(--color-bg);
+
+  /* Type */
+  --font-sans: 'Geist Variable', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: 1rem;
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1.1rem;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.25rem;
+  --text-base: 1rem;
+  --text-base--line-height: 1.5rem;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.6rem;
+  --text-xl: 1.375rem;
+  --text-xl--line-height: 1.8rem;
+  --text-2xl: 1.75rem;
+  --text-2xl--line-height: 2rem;
+  --text-3xl: 2.25rem;
+  --text-3xl--line-height: 2.4rem;
+  --text-4xl: 3rem;
+  --text-4xl--line-height: 3.1rem;
+  --text-display: 4.25rem;
+  --text-display--line-height: 4.25rem;
+  --text-mega: 6rem;
+  --text-mega--line-height: 5.75rem;
+
+  /* Radii */
+  --radius-control: 0.625rem;
+  --radius-card: 1rem;
+  --radius-pill: 999px;
+
+  /* Shadows */
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 18px 40px -24px rgba(0, 0, 0, 0.8);
+  --shadow-pop: 0 12px 30px -10px rgba(0, 0, 0, 0.6);
+
+  /* Motion */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 450ms;
+
+  /* Sizing — for genuinely recurring magic numbers */
+  --spacing-control: 2.75rem;
+  --spacing-viz: 26rem;
+
+  /* Letter-spacing */
+  --tracking-wide: 0.04em;
+  --tracking-wider: 0.08em;
+  --tracking-widest: 0.18em;
+}
+
+@layer base {
+  html {
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    font-feature-settings: 'ss01', 'cv11';
+    -webkit-font-smoothing: antialiased;
+    color-scheme: dark;
+    scrollbar-gutter: stable;
+  }
+  body {
+    min-height: 100dvh;
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(76, 201, 240, 0.06), transparent 60%),
+      radial-gradient(900px 500px at -10% 30%, rgba(181, 23, 158, 0.05), transparent 60%),
+      var(--color-bg);
+  }
+  a {
+    color: var(--color-fg);
+    text-decoration: underline;
+    text-decoration-color: var(--color-border-strong);
+    text-underline-offset: 3px;
+    transition: text-decoration-color var(--duration-fast) var(--ease-out-soft);
+  }
+  a:hover {
+    text-decoration-color: var(--color-fg);
+  }
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-fg);
+  }
+  /* tabular figures for any number in mono */
+  .font-mono,
+  [class*='font-mono'] {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer components {
+  /* Card surface used by deduction list, viz frame, etc. */
+  .card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+  }
+
+  /* Encrypted-style number input — the privacy flourish */
+  .control-input {
+    width: 100%;
+    height: var(--spacing-control);
+    padding: 0 0.875rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-control);
+    color: var(--color-fg);
+    font-family: var(--font-mono);
+    font-feature-settings: 'tnum', 'zero';
+    font-variant-numeric: tabular-nums;
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+    caret-color: var(--color-accent);
+    transition:
+      border-color var(--duration-fast) var(--ease-out-soft),
+      background-color var(--duration-fast) var(--ease-out-soft);
+  }
+  .control-input::placeholder {
+    color: var(--color-fg-subtle);
+    font-family: var(--font-mono);
+  }
+  .control-input:hover {
+    border-color: var(--color-border-strong);
+  }
+  .control-input:focus {
+    outline: none;
+    border-color: var(--color-fg);
+    background: var(--color-surface-elevated);
+  }
+  /* Hide native number spinners */
+  .control-input[type='number']::-webkit-outer-spin-button,
+  .control-input[type='number']::-webkit-inverse-spin-button,
+  .control-input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  .control-input[type='number'] {
+    -moz-appearance: textfield;
+  }
+
+  /* Segmented control (frequency tabs) */
+  .segmented {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    padding: 0.25rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-control);
+  }
+  .segmented > label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(var(--spacing-control) - 0.5rem);
+    border-radius: calc(var(--radius-control) - 0.25rem);
+    cursor: pointer;
+    color: var(--color-fg-muted);
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    letter-spacing: 0.04em;
+    text-transform: lowercase;
+    transition:
+      color var(--duration-fast) var(--ease-out-soft),
+      background-color var(--duration-fast) var(--ease-out-soft);
+  }
+  .segmented > input:checked + label {
+    background: var(--color-surface-elevated);
+    color: var(--color-fg);
+    box-shadow: inset 0 0 0 1px var(--color-border-strong);
+  }
+  .segmented > input:focus-visible + label {
+    outline: 2px solid var(--color-netto);
+    outline-offset: 2px;
+  }
+
+  /* Keyboard shortcut chip — desktop only */
+  .kbd {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.125rem;
+    height: 1.125rem;
+    padding: 0 0.3125rem;
+    border-radius: 4px;
+    border: 1px solid var(--color-border-strong);
+    background: var(--color-bg);
+    color: var(--color-fg-muted);
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  @media (min-width: 640px) {
+    .kbd {
+      display: inline-flex;
+    }
+  }
+  .segmented > input:checked + label > .kbd {
+    border-color: var(--color-border-strong);
+    color: var(--color-fg);
+  }
+
+  /* Toggle switch */
+  .toggle-track {
+    position: relative;
+    display: inline-block;
+    width: 2.5rem;
+    height: 1.375rem;
+    border-radius: var(--radius-pill);
+    background: var(--color-surface-elevated);
+    border: 1px solid var(--color-border);
+    transition: background-color var(--duration-fast) var(--ease-out-soft);
+  }
+  .toggle-thumb {
+    position: absolute;
+    top: 50%;
+    left: 0.125rem;
+    transform: translateY(-50%);
+    width: 1.0625rem;
+    height: 1.0625rem;
+    border-radius: 999px;
+    background: var(--color-fg-muted);
+    transition:
+      transform var(--duration-fast) var(--ease-out-soft),
+      background-color var(--duration-fast) var(--ease-out-soft);
+  }
+  input:checked + .toggle-track {
+    background: color-mix(in oklab, var(--color-accent) 25%, var(--color-surface-elevated));
+    border-color: color-mix(in oklab, var(--color-accent) 60%, transparent);
+  }
+  input:checked + .toggle-track > .toggle-thumb {
+    transform: translate(1.0625rem, -50%);
+    background: var(--color-accent);
+  }
+  input:focus-visible + .toggle-track {
+    outline: 2px solid var(--color-netto);
+    outline-offset: 2px;
+  }
+
+  /* FAQ <details> collapse — dark variant */
+  details.faq-item {
+    background-color: var(--color-surface);
+    border-radius: var(--radius-card);
+    border: 1px solid var(--color-border);
+    transition: border-color var(--duration-fast) var(--ease-out-soft);
+  }
+  details.faq-item:hover {
+    border-color: var(--color-border-strong);
+  }
+  details.faq-item > summary {
+    cursor: pointer;
+    padding: 0.875rem 1rem;
+    font-weight: 500;
+    font-size: 1rem;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    color: var(--color-fg);
+  }
+  @media (min-width: 640px) {
+    details.faq-item > summary {
+      padding: 1rem 1.25rem;
+      font-size: 1.0625rem;
+    }
+    details.faq-item > .faq-body {
+      padding: 0 1.25rem 1rem;
+    }
+  }
+  details.faq-item > summary::-webkit-details-marker {
+    display: none;
+  }
+  details.faq-item > summary::after {
+    content: '+';
+    font-family: var(--font-mono);
+    font-size: 1.375rem;
+    line-height: 1;
+    color: var(--color-fg-muted);
+    flex-shrink: 0;
+    transition: transform var(--duration-fast) var(--ease-out-soft);
+  }
+  details.faq-item[open] > summary::after {
+    content: '−';
+    color: var(--color-fg);
+  }
+  details.faq-item > .faq-body {
+    padding: 0 1rem 0.875rem;
+    color: var(--color-fg-muted);
+  }
+
+  /* Smooth open/close — uses ::details-content + interpolate-size.
+     Browsers without support snap open as before. */
+  details.faq-item {
+    interpolate-size: allow-keywords;
+  }
+  details.faq-item::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition:
+      block-size var(--duration-base) var(--ease-out-soft),
+      content-visibility var(--duration-base) allow-discrete;
+  }
+  details.faq-item[open]::details-content {
+    block-size: auto;
+  }
+}
+
+@keyframes caret-blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  animation: rise 0.45s var(--ease-out-soft) both;
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal-on-scroll {
+      animation: rise-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 25%;
+    }
+  }
+}
+
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { animation: none; }
+}

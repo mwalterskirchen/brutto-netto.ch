@@ -6,11 +6,12 @@ A free online salary calculator for Switzerland that calculates your **net salar
 
 ## Features
 
-- Calculate net salary from gross monthly salary
+- Calculate net salary from gross monthly or annual salary
 - Support for 13th month salary (Dreizehnter Monatslohn)
 - Age-based pension fund (BVG) contribution rates
 - Optional daily sickness benefit insurance (KTG)
 - All deductions itemized with percentages
+- 100% private: all calculations run in your browser
 
 ### Deductions Calculated
 
@@ -26,27 +27,24 @@ Rates are updated for **2026**.
 
 ## Tech Stack
 
-- **Angular 21** with SSR/prerendering
-- **Tailwind CSS 4** + **DaisyUI 5**
-- **Cloudflare Pages** for hosting
+- **Astro** (static SSG)
+- **Solid** (single hydrated island for the calculator)
+- **Tailwind CSS 4** with custom semantic theme tokens
+- **Vitest** for calculator unit tests
+- **Cloudflare Workers Static Assets** for hosting
 
 ## Development
 
+Requires Node 22+ and [pnpm](https://pnpm.io/).
+
 ```bash
-# Install dependencies
-npm install
-
-# Start dev server (http://localhost:4200)
-npm start
-
-# Run tests
-npm test
-
-# Build for production
-npm run build
-
-# Deploy to Cloudflare Pages
-npm run deploy
+pnpm install        # install deps
+pnpm dev            # start dev server (http://localhost:4321)
+pnpm test           # run vitest
+pnpm build          # produce dist/
+pnpm preview        # serve the built dist/
+pnpm deploy         # build + wrangler deploy (production)
+pnpm deploy:preview # build + upload a preview version
 ```
 
 ## License
