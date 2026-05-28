@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import Footer from '../components/Footer.astro';
+import Container from '../components/Container.astro';
 import { messages as t } from '../lib/messages.de';
 
 interface Props {
@@ -47,7 +48,7 @@ const ogImage = new URL('/og-image.png', Astro.site).toString();
     <slot name="head" />
   </head>
   <body class="bg-bg text-fg">
-    <div class="max-w-6xl mx-auto px-5 sm:px-8 pt-6 sm:pt-10 min-h-screen flex flex-col gap-12 sm:gap-20">
+    <Container class="pt-4 sm:pt-6 min-h-screen flex flex-col gap-8 sm:gap-10">
       <header class="flex items-center">
         <a href="/" aria-label="Startseite" class="flex items-center gap-2.5 no-underline">
           <img src="/mark.svg" alt="" width="28" height="28" aria-hidden="true" />
@@ -55,23 +56,24 @@ const ogImage = new URL('/og-image.png', Astro.site).toString();
         </a>
       </header>
 
+      {showHero && (
+        <section class="flex flex-col items-start gap-3 sm:gap-4 reveal" aria-labelledby="hero-heading">
+          <h1
+            id="hero-heading"
+            class="font-sans text-3xl sm:text-4xl md:text-5xl leading-[1.05] tracking-tight text-balance text-fg"
+          >
+            {hero.headline}
+          </h1>
+          <p class="text-fg-muted text-base sm:text-lg max-w-2xl text-balance">
+            {hero.subline}
+          </p>
+        </section>
+      )}
+
       <main class="flex-1 flex flex-col gap-16 sm:gap-24 lg:gap-32">
-        {showHero && (
-          <section class="flex flex-col items-start gap-3 sm:gap-4 reveal" aria-labelledby="hero-heading">
-            <h1
-              id="hero-heading"
-              class="font-sans text-4xl sm:text-5xl md:text-6xl leading-[1.05] tracking-tight text-balance text-fg"
-            >
-              {hero.headline}
-            </h1>
-            <p class="text-fg-muted text-base sm:text-lg max-w-2xl text-balance">
-              {hero.subline}
-            </p>
-          </section>
-        )}
         <slot />
       </main>
-    </div>
+    </Container>
     <Footer />
   </body>
 </html>

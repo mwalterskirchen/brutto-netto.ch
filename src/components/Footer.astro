@@ -1,7 +1,8 @@
 ---
+import Container from './Container.astro';
 ---
 <footer class="mt-20 sm:mt-32 border-t border-border">
-  <div class="max-w-6xl mx-auto px-5 sm:px-8 py-8 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+  <Container class="py-8 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
     <nav class="flex flex-wrap gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-wider text-fg-muted">
       <a href="/impressum" class="hover:text-fg no-underline">Impressum</a>
       <a href="/datenschutz" class="hover:text-fg no-underline">Datenschutz</a>
@@ -28,5 +29,5 @@
         </svg>
       </a>
     </div>
-  </div>
+  </Container>
 </footer>
