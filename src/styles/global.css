@@ -173,11 +173,6 @@
     -moz-appearance: textfield;
   }
 
-  /* Keystroke jitter — toggled by class on the input */
-  .control-input.is-jittering {
-    animation: jitter 120ms var(--ease-out-soft);
-  }
-
   /* Segmented control (frequency tabs) */
   .segmented {
     display: grid;
@@ -346,14 +341,6 @@
   details.faq-item[open]::details-content {
     block-size: auto;
   }
-}
-
-@keyframes jitter {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(-1px); }
-  50% { transform: translateX(1px); }
-  75% { transform: translateX(-0.5px); }
-  100% { transform: translateX(0); }
 }
 
 @keyframes caret-blink {

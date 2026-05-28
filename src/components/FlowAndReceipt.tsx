@@ -6,6 +6,7 @@ import { t } from '../lib/i18n';
 import { DASH, reveal } from '../lib/calculator-ui';
 import FlowVisualization from './FlowVisualization';
 import DeductionList from './DeductionList';
+import Stat from './Stat';
 
 interface Props {
   result: CalculatorResult;
@@ -60,12 +61,5 @@ const FlowAndReceipt: Component<Props> = (props) => {
     </div>
   );
 };
-
-const Stat: Component<{ label: string; value: string }> = (props) => (
-  <div class="flex flex-col gap-0.5 min-w-0">
-    <p class="font-mono text-2xs uppercase tracking-wider text-fg-subtle truncate">{props.label}</p>
-    <p class="font-mono text-sm sm:text-base text-fg tabular-nums">{props.value}</p>
-  </div>
-);
 
 export default FlowAndReceipt;

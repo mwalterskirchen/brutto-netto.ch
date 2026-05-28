@@ -1,8 +1,10 @@
-import { Show, type Component, type JSX } from 'solid-js';
+import { type Component, type JSX } from 'solid-js';
 import { Motion } from 'solid-motionone';
 import type { Frequency } from '../lib/calculator';
 import { t } from '../lib/i18n';
 import { reveal } from '../lib/calculator-ui';
+import NumberField from './NumberField';
+import ToggleRow from './ToggleRow';
 
 interface Props {
   gross: number | undefined;
@@ -57,7 +59,7 @@ const ControlDeck: Component<Props> = (props) => {
         </label>
       </div>
 
-      <CryptoNumberField
+      <NumberField
         id="grossSalary"
         label={salaryLabel()}
         unit={t.calculator.grossSalary.unit}
@@ -65,9 +67,10 @@ const ControlDeck: Component<Props> = (props) => {
         value={props.gross}
         onChange={props.setGross}
         min={1}
+        required
       />
 
-      <CryptoNumberField
+      <NumberField
         id="age"
         label={t.calculator.age.label}
         unit={t.calculator.age.unit}
@@ -76,6 +79,7 @@ const ControlDeck: Component<Props> = (props) => {
         onChange={props.setAge}
         min={18}
         max={70}
+        required
       />
 
       <div class="card p-4 flex flex-col gap-3.5">
@@ -99,97 +103,5 @@ const ControlDeck: Component<Props> = (props) => {
     </Motion.div>
   );
 };
-
-function parseNumber(value: string): number | undefined {
-  if (value === '') return undefined;
-  const n = Number(value);
-  return Number.isNaN(n) ? undefined : n;
-}
-
-const CryptoNumberField: Component<{
-  id: string;
-  label: string;
-  unit: string;
-  placeholder: string;
-  value: number | undefined;
-  onChange: (n: number | undefined) => void;
-  min?: number;
-  max?: number;
-}> = (props) => {
-  let inputRef: HTMLInputElement | undefined;
-
-  const jitter = () => {
-    if (!inputRef) return;
-    inputRef.classList.remove('is-jittering');
-    void inputRef.offsetWidth;
-    inputRef.classList.add('is-jittering');
-  };
-
-  return (
-    <div class="flex flex-col gap-1.5">
-      <div class="flex items-baseline justify-between">
-        <label for={props.id} class="font-mono text-xs uppercase tracking-wider text-fg-muted">
-          {props.label}
-        </label>
-        <span class="font-mono text-xs text-fg-subtle">{props.unit}</span>
-      </div>
-      <input
-        ref={inputRef}
-        id={props.id}
-        type="number"
-        inputmode="decimal"
-        class="control-input"
-        placeholder={props.placeholder}
-        value={props.value ?? ''}
-        min={props.min}
-        max={props.max}
-        onInput={(e) => {
-          jitter();
-          props.onChange(parseNumber(e.currentTarget.value));
-        }}
-      />
-    </div>
-  );
-};
-
-const ToggleRow: Component<{
-  id: string;
-  label: string;
-  shortcut?: string;
-  checked: boolean;
-  onChange: (v: boolean) => void;
-  disabled?: boolean;
-}> = (props) => (
-  <label
-    class="flex items-center justify-between gap-3 text-sm"
-    classList={{
-      'cursor-pointer': !props.disabled,
-      'cursor-not-allowed opacity-40': props.disabled,
-    }}
-    for={props.id}
-    aria-disabled={props.disabled || undefined}
-  >
-    <span class="flex items-center gap-2 text-fg">
-      <span>{props.label}</span>
-      <Show when={props.shortcut && !props.disabled}>
-        <kbd class="kbd">{props.shortcut}</kbd>
-      </Show>
-    </span>
-    <span class="relative inline-block shrink-0">
-      <input
-        id={props.id}
-        type="checkbox"
-        class="peer sr-only"
-        checked={props.checked}
-        disabled={props.disabled}
-        aria-keyshortcuts={!props.disabled ? props.shortcut?.toLowerCase() : undefined}
-        onChange={(e) => props.onChange(e.currentTarget.checked)}
-      />
-      <span class="toggle-track" aria-hidden="true">
-        <span class="toggle-thumb" />
-      </span>
-    </span>
-  </label>
-);
 
 export default ControlDeck;
