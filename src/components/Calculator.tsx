@@ -31,12 +31,12 @@ const Calculator: Component = () => {
     onCleanup(() => window.removeEventListener('keydown', onKey));
   });
 
-  const isGhost = createMemo(() => grossInput() === undefined);
+  const isGhost = createMemo(() => grossInput() === undefined || age() === undefined);
 
   const result = createMemo<CalculatorResult>(() =>
     calculate({
       grossSalary: grossInput(),
-      age: age() ?? 35,
+      age: age(),
       ktgEnabled: ktgEnabled(),
       thirteenthSalaryEnabled: thirteenthEnabled(),
       frequency: frequency(),

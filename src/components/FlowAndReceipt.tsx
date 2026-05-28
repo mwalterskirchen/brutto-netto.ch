@@ -48,12 +48,13 @@ const FlowAndReceipt: Component<Props> = (props) => {
         </div>
       </Motion.header>
 
-      <FlowVisualization
-        result={props.result}
-        gross={props.gross}
-        ghost={props.ghost}
-        frequency={props.frequency}
-      />
+      {!props.ghost && (
+        <FlowVisualization
+          result={props.result}
+          gross={props.gross}
+          frequency={props.frequency}
+        />
+      )}
 
       <DeductionList result={props.result} ghost={props.ghost} frequency={props.frequency} />
     </div>
