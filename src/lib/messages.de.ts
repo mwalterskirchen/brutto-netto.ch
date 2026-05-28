@@ -72,7 +72,7 @@ export const messages = {
     builtBy: 'gebaut von',
   },
   methodology: {
-    eyebrow: 'methodologie',
+    eyebrow: 'zahlen & quellen',
     heading: 'Wie wir rechnen, und woher die Zahlen kommen',
     includes: {
       heading: 'Eingerechnet',
