@@ -26,7 +26,8 @@ Rates are updated for **2026**.
 
 ## Tech Stack
 
-- **Angular 21** with SSR/prerendering
+- **Astro 7** as a fully static site
+- **Preact** island with `@preact/signals` for the calculator
 - **Tailwind CSS 4** + **DaisyUI 5**
 - **Cloudflare Pages** for hosting
 
@@ -36,13 +37,13 @@ Rates are updated for **2026**.
 # Install dependencies
 npm install
 
-# Start dev server (http://localhost:4200)
-npm start
+# Start dev server (http://localhost:4321)
+npm run dev
 
 # Run tests
 npm test
 
-# Build for production
+# Type-check and build for production
 npm run build
 
 # Deploy to Cloudflare Pages
