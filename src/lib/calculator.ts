@@ -1,23 +1,17 @@
-// Temporary adapter: exposes the Angular CalculatorService behind the
-// framework-agnostic API so the tests capture today's results.
-import '@angular/compiler';
-import { formatCurrency as ngFormatCurrency, formatPercent as ngFormatPercent, registerLocaleData } from '@angular/common';
-import localeDeCH from '@angular/common/locales/de-CH';
-import { CalculatorService } from '../app/calculator/calculator.service';
-import { SalaryFrequency } from '../app/shared/enums/salary-frequency.enum';
-
-registerLocaleData(localeDeCH);
+import { DEDUCTION_RATES_2026 } from './deduction-rates';
 
 export type Frequency = 'monthly' | 'annual';
 
 export interface SalaryInput {
   frequency: Frequency;
+  /** Gross salary for the selected frequency, in CHF. */
   grossSalary: number | undefined;
   age: number | undefined;
   thirteenthSalary: boolean;
   ktg: boolean;
 }
 
+/** All amounts are in CHF for the selected frequency. */
 export interface SalaryResult {
   ahvIvEo: number;
   alv: number;
@@ -29,24 +23,77 @@ export interface SalaryResult {
   net: number | undefined;
 }
 
-export function calculateNetSalary(input: SalaryInput): SalaryResult {
-  const s = new CalculatorService();
-  s.salaryFrequency.set(input.frequency === 'monthly' ? SalaryFrequency.MONTHLY : SalaryFrequency.ANNUAL);
-  s.grossSalary.set(input.grossSalary);
-  s.age.set(input.age);
-  s.thirteenthSalaryEnabled.set(input.thirteenthSalary);
-  s.ktgEnabled.set(input.ktg);
+export function calculateNetSalary(
+  input: SalaryInput,
+  rates: typeof DEDUCTION_RATES_2026 = DEDUCTION_RATES_2026,
+): SalaryResult {
+  const gross = input.grossSalary ?? 0;
+  const numberOfSalaries = input.thirteenthSalary ? 13 : 12;
+  const isMonthly = input.frequency === 'monthly';
+  const annualGross = gross ? (isMonthly ? gross * numberOfSalaries : gross) : 0;
+  const toDisplayFrequency = (annual: number) => (isMonthly ? annual / numberOfSalaries : annual);
+
+  // Simple percentage deductions
+  const ahvIvEo = gross * rates.socialSecurity.ahvIvEo.rate;
+  const nbu = gross * rates.nbu.rate;
+  const ktg = input.ktg ? gross * rates.ktg.rate : 0;
+
+  // ALV with solidarity rate for high earners
+  const { annualThreshold, standardRate, solidarityRate } = rates.socialSecurity.alv;
+  const alv = annualGross
+    ? toDisplayFrequency(
+        annualGross <= annualThreshold
+          ? annualGross * standardRate
+          : annualThreshold * standardRate + (annualGross - annualThreshold) * solidarityRate,
+      )
+    : 0;
+
+  // BVG coordinated salary (clamped between min/max thresholds)
+  const { entryThreshold, coordinationDeduction, minimumInsured, maximumInsured } =
+    rates.bvg.thresholds;
+  const coordinatedAnnual =
+    annualGross < entryThreshold
+      ? 0
+      : Math.min(Math.max(annualGross - coordinationDeduction, minimumInsured), maximumInsured);
+  const age = input.age;
+  const bvgRate =
+    age === undefined
+      ? 0
+      : (rates.bvg.contributionRates.find((r) => age >= r.minAge && age <= r.maxAge)
+          ?.employeeShare ?? 0);
+  const bvg = coordinatedAnnual && bvgRate ? toDisplayFrequency(coordinatedAnnual * bvgRate) : 0;
+
+  // Totals
+  const total = ahvIvEo + alv + nbu + ktg + bvg;
+
   return {
-    ahvIvEo: s.ahvIvEoContributions(),
-    alv: s.alvContributions(),
-    bvg: s.bvgContributions(),
-    nbu: s.nbuContributions(),
-    ktg: s.ktgContributions(),
-    total: s.totalContributions(),
-    totalPercentage: s.totalContributionsPercentage(),
-    net: s.netSalary(),
+    ahvIvEo,
+    alv,
+    bvg,
+    nbu,
+    ktg,
+    total,
+    totalPercentage: gross ? total / gross : 0,
+    net: gross ? gross - total : undefined,
   };
 }
 
-export const formatCurrency = (value: number) => ngFormatCurrency(value, 'de-CH', 'CHF', 'CHF');
-export const formatPercent = (value: number) => ngFormatPercent(value, 'de-CH', '1.2-2');
+const currencyFormat = new Intl.NumberFormat('de-CH', {
+  style: 'currency',
+  currency: 'CHF',
+});
+
+const percentFormat = new Intl.NumberFormat('de-CH', {
+  style: 'percent',
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+});
+
+// ICU versions disagree on the de-CH group separator (' or ’), so pin it to keep
+// build-time and browser output identical.
+export const formatCurrency = (value: number) =>
+  currencyFormat
+    .formatToParts(value)
+    .map((part) => (part.type === 'group' ? '’' : part.value))
+    .join('');
+export const formatPercent = (value: number) => percentFormat.format(value);
