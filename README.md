@@ -46,9 +46,11 @@ pnpm test
 # Type-check and build for production
 pnpm build
 
-# Deploy to Cloudflare Pages
+# Deploy to Cloudflare Pages manually
 pnpm run deploy
 ```
+
+Every push to `main` is tested, built and deployed to Cloudflare Pages by the [CI workflow](.github/workflows/ci.yml). Pull requests run the tests and the build only.
 
 ## License
 
