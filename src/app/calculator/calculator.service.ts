@@ -1,5 +1,5 @@
 import { computed, Injectable, signal } from '@angular/core';
-import { DEDUCTION_RATES_2026 } from './deduction-rates';
+import { DEDUCTION_RATES_2026 } from '../../lib/deduction-rates';
 import { SalaryFrequency } from '../shared/enums/salary-frequency.enum';
 
 @Injectable({
