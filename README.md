@@ -27,8 +27,8 @@ Rates are updated for **2026**.
 ## Tech Stack
 
 - **Astro 7** as a fully static site
-- **Preact** island with `@preact/signals` for the calculator
-- **Tailwind CSS 4** + **DaisyUI 5**
+- **React** islands for the calculator and the FAQ
+- **Tailwind CSS 4** + **shadcn/ui** with [neobrutalism.dev](https://www.neobrutalism.dev) components
 - **Cloudflare Pages** for hosting
 
 ## Development

@@ -1,0 +1,36 @@
+---
+import GitHubIcon from './GitHubIcon.astro';
+import { GITHUB_URL } from '../lib/links';
+import { buttonVariants } from '@/components/ui/button';
+---
+
+<header class="border-b-2 border-border bg-secondary-background">
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
+    <a
+      href="/"
+      class="flex items-center gap-3 rounded-base"
+      aria-label="brutto-netto.ch, zur Startseite"
+    >
+      <span
+        aria-hidden="true"
+        class="relative grid size-9 shrink-0 place-items-center rounded-base border-2 border-border bg-main shadow-[2px_2px_0_0_var(--border)]"
+      >
+        <span class="absolute h-5 w-[6px] bg-white"></span>
+        <span class="absolute h-[6px] w-5 bg-white"></span>
+      </span>
+      <span class="font-wide text-lg font-extrabold tracking-tight sm:text-xl">
+        brutto-netto.ch
+      </span>
+    </a>
+    <a
+      href={GITHUB_URL}
+      target="_blank"
+      rel="noopener"
+      class={buttonVariants({ variant: 'neutral', className: 'font-heading' })}
+    >
+      <GitHubIcon class="size-5" />
+      <span class="hidden sm:inline">Quellcode</span>
+      <span class="sr-only sm:hidden">Quellcode auf GitHub</span>
+    </a>
+  </div>
+</header>

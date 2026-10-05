@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
 interface Props {
@@ -30,28 +31,16 @@ const canonicalUrl = new URL(canonicalPath, Astro.site);
     <link rel="sitemap" href="/sitemap-index.xml" />
     <slot name="head" />
   </head>
-  <body>
-    <div class="container mx-auto p-4 min-h-screen flex flex-col gap-6">
-      <header class="text-center mb-2">
-        <a href="/">
-          <picture>
-            <source srcset="/logo_white.svg" media="(prefers-color-scheme: dark)" />
-            <img src="/logo.svg" alt="Brutto Netto Rechner Schweiz 🇨🇭" class="w-72 mx-auto" />
-          </picture>
-        </a>
-        <h1 class="sr-only">Brutto Netto Lohnrechner Schweiz 2026</h1>
-        <p class="text-lg max-w-3xl mx-auto mb-4">
-          Wieviel bleibt von Ihrem Lohn? <br />
-          Berechnen Sie Ihren <strong>Nettolohn</strong>: schnell, präzise und ohne Datenweitergabe.
-        </p>
-        <div class="flex flex-wrap justify-center gap-2 text-sm">
-          <span class="badge badge-outline p-4 gap-1">🔒 100% privat</span>
-          <span class="badge badge-outline p-4 gap-1">📖 Open Source</span>
-          <span class="badge badge-outline p-4 gap-1">✨ Kostenlos</span>
-        </div>
-      </header>
-
-      <main class="flex-1">
+  <body class="min-h-screen antialiased">
+    <a
+      href="#main"
+      class="sr-only rounded-base border-2 border-border bg-secondary-background px-4 py-2 font-heading focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50"
+    >
+      Zum Inhalt springen
+    </a>
+    <div class="flex min-h-screen flex-col">
+      <Header />
+      <main id="main" class="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6 sm:py-12">
         <slot />
       </main>
       <Footer />
