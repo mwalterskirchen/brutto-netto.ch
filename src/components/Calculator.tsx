@@ -50,7 +50,12 @@ export default function Calculator() {
               type="button"
               role="tab"
               aria-selected={frequency.value === tab.frequency}
-              class={`tab flex-1 ${frequency.value === tab.frequency ? 'tab-active' : ''}`}
+              // daisyUI's inactive tab text (50% opacity) fails WCAG AA contrast.
+              class={`tab flex-1 ${
+                frequency.value === tab.frequency
+                  ? 'tab-active'
+                  : 'text-base-content/70 hover:text-base-content'
+              }`}
               onClick={() => (frequency.value = tab.frequency)}
             >
               {tab.label}
@@ -111,10 +116,10 @@ export default function Calculator() {
         </p>
       </div>
       <div class="mt-4 p-4 bg-base-200 rounded-lg">
-        <h3 class="text-base font-semibold mb-2">
+        <h2 class="text-base font-semibold mb-2">
           {isMonthly ? 'Monatliche Abzüge:' : 'Jährliche Abzüge:'}
           {total > 0 && ` ${formatCurrency(total)} (${formatPercent(totalPercentage)})`}
-        </h3>
+        </h2>
         <table class="table table-zebra text-sm">
           <tbody>
             {deductions.map(([name, value]) => (
