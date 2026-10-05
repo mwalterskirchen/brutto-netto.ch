@@ -54,16 +54,14 @@ const structuredData = {
 <section class="max-w-4xl mx-auto mt-8 mb-8">
   <h2 class="text-2xl font-bold mb-6 text-center">Häufig gestellte Fragen (FAQ)</h2>
   <div class="space-y-4">
-    {
-      faqs.map(({ question, answer }) => (
-        <details class="collapse collapse-plus bg-base-200">
-          <summary class="collapse-title text-lg font-medium">{question}</summary>
-          <div class="collapse-content">
-            <p class="pt-2" set:html={answer} />
-          </div>
-        </details>
-      ))
-    }
+    {faqs.map(({ question, answer }) => (
+      <details class="collapse collapse-plus bg-base-200">
+        <summary class="collapse-title text-lg font-medium">{question}</summary>
+        <div class="collapse-content">
+          <p class="pt-2" set:html={answer} />
+        </div>
+      </details>
+    ))}
   </div>
 </section>
 
