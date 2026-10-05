@@ -1,6 +1,11 @@
 import { useComputed, useSignal } from '@preact/signals';
 import type { TargetedEvent } from 'preact';
-import { calculateNetSalary, formatCurrency, formatPercent, type Frequency } from '../lib/calculator';
+import {
+  calculateNetSalary,
+  formatCurrency,
+  formatPercent,
+  type Frequency,
+} from '../lib/calculator';
 
 const TABS: { frequency: Frequency; label: string }[] = [
   { frequency: 'monthly', label: 'Monatlich' },
