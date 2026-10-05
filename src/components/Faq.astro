@@ -57,7 +57,8 @@ const structuredData = {
   <h2 id="faq-title" class="mb-8 text-2xl sm:text-3xl">
     Häufige Fragen
   </h2>
-  <FaqAccordion client:visible items={faqs} />
+  <!-- client:load so the closed answers get hidden="until-found" for find-in-page right away. -->
+  <FaqAccordion client:load items={faqs} />
 </section>
 
 <script type="application/ld+json" is:inline set:html={JSON.stringify(structuredData)} />

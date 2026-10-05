@@ -133,13 +133,15 @@ export default function Calculator() {
         </div>
       </form>
 
-      <div
-        className="flex flex-col rounded-base border-2 border-border bg-secondary-background shadow-lg"
-        aria-live="polite"
-      >
+      <div className="flex flex-col rounded-base border-2 border-border bg-secondary-background shadow-lg">
         <div className="@container border-b-2 border-border bg-main p-5 text-main-foreground sm:p-6">
           <h2 className="text-lg">Nettolohn {period}</h2>
-          <p className="net-salary mt-2 font-wide text-[clamp(1.75rem,9.5cqi,3.75rem)] leading-none font-extrabold whitespace-nowrap tabular-nums">
+          {/* Only the net amount is announced; the whole card would be read out on every keystroke. */}
+          <p
+            aria-live="polite"
+            aria-atomic="true"
+            className="net-salary mt-2 font-wide text-[clamp(1.75rem,9.5cqi,3.75rem)] leading-none font-extrabold whitespace-nowrap tabular-nums"
+          >
             {net === undefined ? 'CHF –' : formatCurrency(net)}
           </p>
         </div>
