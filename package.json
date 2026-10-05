@@ -4,7 +4,7 @@
   "license": "MIT",
   "type": "module",
   "private": true,
-  "packageManager": "npm@11.7.0",
+  "packageManager": "pnpm@12.9.1",
   "engines": {
     "node": ">=22.12"
   },
@@ -14,8 +14,8 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "test": "vitest run",
-    "deploy": "npm run build && wrangler pages deploy",
-    "deploy:preview": "npm run build && wrangler pages deploy --branch preview"
+    "deploy": "pnpm build && wrangler pages deploy",
+    "deploy:preview": "pnpm build && wrangler pages deploy --branch preview"
   },
   "prettier": {
     "printWidth": 100,

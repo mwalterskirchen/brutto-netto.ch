@@ -35,19 +35,19 @@ Rates are updated for **2026**.
 
 ```bash
 # Install dependencies
-npm install
+pnpm install
 
 # Start dev server (http://localhost:4321)
-npm run dev
+pnpm dev
 
 # Run tests
-npm test
+pnpm test
 
 # Type-check and build for production
-npm run build
+pnpm build
 
 # Deploy to Cloudflare Pages
-npm run deploy
+pnpm run deploy
 ```
 
 ## License
