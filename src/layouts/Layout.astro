@@ -5,9 +5,11 @@ import Footer from '../components/Footer.astro';
 interface Props {
   title: string;
   description: string;
+  /** Hide the page from search engines, e.g. the 404 page. */
+  noindex?: boolean;
 }
 
-const { title, description } = Astro.props;
+const { title, description, noindex = false } = Astro.props;
 // build.format 'file' renders pages as /index.html and /datenschutz.html; canonical URLs
 // use the extensionless form that Cloudflare Pages serves.
 const canonicalPath = Astro.url.pathname.replace(/(index)?\.html$/, '');
@@ -22,9 +24,9 @@ const canonicalUrl = new URL(canonicalPath, Astro.site);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="author" content="Maximilian Walterskirchen" />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content={noindex ? 'noindex' : 'index, follow'} />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <link rel="canonical" href={canonicalUrl} />
+    {!noindex && <link rel="canonical" href={canonicalUrl} />}
     <link rel="sitemap" href="/sitemap-index.xml" />
     <slot name="head" />
   </head>
