@@ -1,0 +1,400 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`calculateNetSalary > annual, 13th salary 1`] = `
+{
+  "ahvIvEo": 4823,
+  "alv": 1000.9999999999999,
+  "bvg": 4209.03,
+  "ktg": 0,
+  "nbu": 910,
+  "net": 80056.97,
+  "total": 10943.029999999999,
+  "totalPercentage": 0.12025307692307691,
+}
+`;
+
+exports[`calculateNetSalary > annual, KTG 1`] = `
+{
+  "ahvIvEo": 3180,
+  "alv": 660,
+  "bvg": 268.32,
+  "ktg": 480,
+  "nbu": 600,
+  "net": 54811.68,
+  "total": 5188.32,
+  "totalPercentage": 0.086472,
+}
+`;
+
+exports[`calculateNetSalary > annual, above ALV threshold 1`] = `
+{
+  "ahvIvEo": 10600,
+  "alv": 1889.1999999999998,
+  "bvg": 6040.44,
+  "ktg": 0,
+  "nbu": 2000,
+  "net": 179470.36,
+  "total": 20529.64,
+  "totalPercentage": 0.1026482,
+}
+`;
+
+exports[`calculateNetSalary > annual, age 30 1`] = `
+{
+  "ahvIvEo": 4240,
+  "alv": 880,
+  "bvg": 2516.38,
+  "ktg": 0,
+  "nbu": 800,
+  "net": 71563.62,
+  "total": 8436.380000000001,
+  "totalPercentage": 0.10545475000000001,
+}
+`;
+
+exports[`calculateNetSalary > annual, below BVG entry threshold 1`] = `
+{
+  "ahvIvEo": 1060,
+  "alv": 220,
+  "bvg": 0,
+  "ktg": 0,
+  "nbu": 200,
+  "net": 18520,
+  "total": 1480,
+  "totalPercentage": 0.074,
+}
+`;
+
+exports[`calculateNetSalary > annual, no age 1`] = `
+{
+  "ahvIvEo": 4240,
+  "alv": 880,
+  "bvg": 0,
+  "ktg": 0,
+  "nbu": 800,
+  "net": 74080,
+  "total": 5920,
+  "totalPercentage": 0.074,
+}
+`;
+
+exports[`calculateNetSalary > empty input 1`] = `
+{
+  "ahvIvEo": 0,
+  "alv": 0,
+  "bvg": 0,
+  "ktg": 0,
+  "nbu": 0,
+  "net": undefined,
+  "total": 0,
+  "totalPercentage": 0,
+}
+`;
+
+exports[`calculateNetSalary > monthly, 13th salary 1`] = `
+{
+  "ahvIvEo": 318,
+  "alv": 66,
+  "bvg": 186.33692307692309,
+  "ktg": 0,
+  "nbu": 60,
+  "net": 5369.663076923077,
+  "total": 630.3369230769231,
+  "totalPercentage": 0.10505615384615384,
+}
+`;
+
+exports[`calculateNetSalary > monthly, 13th salary above ALV threshold 1`] = `
+{
+  "ahvIvEo": 636,
+  "alv": 128.39999999999998,
+  "bvg": 323.77153846153846,
+  "ktg": 0,
+  "nbu": 120,
+  "net": 10791.828461538462,
+  "total": 1208.1715384615384,
+  "totalPercentage": 0.10068096153846152,
+}
+`;
+
+exports[`calculateNetSalary > monthly, KTG 1`] = `
+{
+  "ahvIvEo": 318,
+  "alv": 66,
+  "bvg": 178.365,
+  "ktg": 48,
+  "nbu": 60,
+  "net": 5329.635,
+  "total": 670.365,
+  "totalPercentage": 0.11172750000000001,
+}
+`;
+
+exports[`calculateNetSalary > monthly, above ALV threshold 1`] = `
+{
+  "ahvIvEo": 1060,
+  "alv": 174.1,
+  "bvg": 350.7525,
+  "ktg": 0,
+  "nbu": 200,
+  "net": 18215.1475,
+  "total": 1784.8525,
+  "totalPercentage": 0.08924262499999999,
+}
+`;
+
+exports[`calculateNetSalary > monthly, above BVG maximum insured 1`] = `
+{
+  "ahvIvEo": 477,
+  "alv": 99,
+  "bvg": 350.7525,
+  "ktg": 0,
+  "nbu": 90,
+  "net": 7983.2474999999995,
+  "total": 1016.7525,
+  "totalPercentage": 0.1129725,
+}
+`;
+
+exports[`calculateNetSalary > monthly, age 17 (outside bands) 1`] = `
+{
+  "ahvIvEo": 424,
+  "alv": 88,
+  "bvg": 0,
+  "ktg": 0,
+  "nbu": 80,
+  "net": 7408,
+  "total": 592,
+  "totalPercentage": 0.074,
+}
+`;
+
+exports[`calculateNetSalary > monthly, age 18 1`] = `
+{
+  "ahvIvEo": 212,
+  "alv": 44,
+  "bvg": 14.36,
+  "ktg": 0,
+  "nbu": 40,
+  "net": 3689.64,
+  "total": 310.36,
+  "totalPercentage": 0.07759,
+}
+`;
+
+exports[`calculateNetSalary > monthly, age 24 1`] = `
+{
+  "ahvIvEo": 212,
+  "alv": 44,
+  "bvg": 14.36,
+  "ktg": 0,
+  "nbu": 40,
+  "net": 3689.64,
+  "total": 310.36,
+  "totalPercentage": 0.07759,
+}
+`;
+
+exports[`calculateNetSalary > monthly, age 25 1`] = `
+{
+  "ahvIvEo": 318,
+  "alv": 66,
+  "bvg": 178.365,
+  "ktg": 0,
+  "nbu": 60,
+  "net": 5377.635,
+  "total": 622.365,
+  "totalPercentage": 0.1037275,
+}
+`;
+
+exports[`calculateNetSalary > monthly, age 34 1`] = `
+{
+  "ahvIvEo": 318,
+  "alv": 66,
+  "bvg": 178.365,
+  "ktg": 0,
+  "nbu": 60,
+  "net": 5377.635,
+  "total": 622.365,
+  "totalPercentage": 0.1037275,
+}
+`;
+
+exports[`calculateNetSalary > monthly, age 35 1`] = `
+{
+  "ahvIvEo": 424,
+  "alv": 88,
+  "bvg": 350.7525,
+  "ktg": 0,
+  "nbu": 80,
+  "net": 7057.2474999999995,
+  "total": 942.7525,
+  "totalPercentage": 0.11784406250000001,
+}
+`;
+
+exports[`calculateNetSalary > monthly, age 45 1`] = `
+{
+  "ahvIvEo": 424,
+  "alv": 88,
+  "bvg": 503.36999999999995,
+  "ktg": 0,
+  "nbu": 80,
+  "net": 6904.63,
+  "total": 1095.37,
+  "totalPercentage": 0.13692125,
+}
+`;
+
+exports[`calculateNetSalary > monthly, age 55 1`] = `
+{
+  "ahvIvEo": 424,
+  "alv": 88,
+  "bvg": 540.855,
+  "ktg": 0,
+  "nbu": 80,
+  "net": 6867.145,
+  "total": 1132.855,
+  "totalPercentage": 0.141606875,
+}
+`;
+
+exports[`calculateNetSalary > monthly, age 65 1`] = `
+{
+  "ahvIvEo": 424,
+  "alv": 88,
+  "bvg": 540.855,
+  "ktg": 0,
+  "nbu": 80,
+  "net": 6867.145,
+  "total": 1132.855,
+  "totalPercentage": 0.141606875,
+}
+`;
+
+exports[`calculateNetSalary > monthly, age 66 (outside bands) 1`] = `
+{
+  "ahvIvEo": 424,
+  "alv": 88,
+  "bvg": 0,
+  "ktg": 0,
+  "nbu": 80,
+  "net": 7408,
+  "total": 592,
+  "totalPercentage": 0.074,
+}
+`;
+
+exports[`calculateNetSalary > monthly, all options 1`] = `
+{
+  "ahvIvEo": 397.5,
+  "alv": 82.5,
+  "bvg": 464.6492307692307,
+  "ktg": 60,
+  "nbu": 75,
+  "net": 6420.350769230769,
+  "total": 1079.6492307692306,
+  "totalPercentage": 0.14395323076923075,
+}
+`;
+
+exports[`calculateNetSalary > monthly, at ALV threshold 1`] = `
+{
+  "ahvIvEo": 654.55,
+  "alv": 135.85,
+  "bvg": 350.7525,
+  "ktg": 0,
+  "nbu": 123.5,
+  "net": 11085.3475,
+  "total": 1264.6525,
+  "totalPercentage": 0.10240101214574898,
+}
+`;
+
+exports[`calculateNetSalary > monthly, below BVG entry threshold 1`] = `
+{
+  "ahvIvEo": 95.39999999999999,
+  "alv": 19.8,
+  "bvg": 0,
+  "ktg": 0,
+  "nbu": 18,
+  "net": 1666.8,
+  "total": 133.2,
+  "totalPercentage": 0.074,
+}
+`;
+
+exports[`calculateNetSalary > monthly, coordinated salary at minimum insured 1`] = `
+{
+  "ahvIvEo": 116.6,
+  "alv": 24.2,
+  "bvg": 20.6325,
+  "ktg": 0,
+  "nbu": 22,
+  "net": 2016.5675,
+  "total": 183.43249999999998,
+  "totalPercentage": 0.08337840909090909,
+}
+`;
+
+exports[`calculateNetSalary > monthly, just above BVG entry threshold 1`] = `
+{
+  "ahvIvEo": 100.7,
+  "alv": 20.9,
+  "bvg": 20.6325,
+  "ktg": 0,
+  "nbu": 19,
+  "net": 1738.7675,
+  "total": 161.2325,
+  "totalPercentage": 0.08485921052631579,
+}
+`;
+
+exports[`calculateNetSalary > monthly, no age 1`] = `
+{
+  "ahvIvEo": 318,
+  "alv": 66,
+  "bvg": 0,
+  "ktg": 0,
+  "nbu": 60,
+  "net": 5556,
+  "total": 444,
+  "totalPercentage": 0.074,
+}
+`;
+
+exports[`calculateNetSalary > zero gross salary 1`] = `
+{
+  "ahvIvEo": 0,
+  "alv": 0,
+  "bvg": 0,
+  "ktg": 0,
+  "nbu": 0,
+  "net": undefined,
+  "total": 0,
+  "totalPercentage": 0,
+}
+`;
+
+exports[`formatting > formatCurrency(-12.3) 1`] = `"CHF-12.30"`;
+
+exports[`formatting > formatCurrency(0) 1`] = `"CHF 0.00"`;
+
+exports[`formatting > formatCurrency(0.5) 1`] = `"CHF 0.50"`;
+
+exports[`formatting > formatCurrency(1234.5) 1`] = `"CHF 1’234.50"`;
+
+exports[`formatting > formatCurrency(6543.21) 1`] = `"CHF 6’543.21"`;
+
+exports[`formatting > formatCurrency(1234567.891) 1`] = `"CHF 1’234’567.89"`;
+
+exports[`formatting > formatPercent(0) 1`] = `"0.00%"`;
+
+exports[`formatting > formatPercent(0.0999) 1`] = `"9.99%"`;
+
+exports[`formatting > formatPercent(0.1) 1`] = `"10.00%"`;
+
+exports[`formatting > formatPercent(0.12345) 1`] = `"12.35%"`;
+
+exports[`formatting > formatPercent(1) 1`] = `"100.00%"`;

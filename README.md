@@ -26,7 +26,8 @@ Rates are updated for **2026**.
 
 ## Tech Stack
 
-- **Angular 21** with SSR/prerendering
+- **Astro 7** as a fully static site
+- **Preact** island with `@preact/signals` for the calculator
 - **Tailwind CSS 4** + **DaisyUI 5**
 - **Cloudflare Pages** for hosting
 
@@ -34,20 +35,22 @@ Rates are updated for **2026**.
 
 ```bash
 # Install dependencies
-npm install
+pnpm install
 
-# Start dev server (http://localhost:4200)
-npm start
+# Start dev server (http://localhost:4321)
+pnpm dev
 
 # Run tests
-npm test
+pnpm test
 
-# Build for production
-npm run build
+# Type-check and build for production
+pnpm build
 
-# Deploy to Cloudflare Pages
-npm run deploy
+# Deploy to Cloudflare Pages manually
+pnpm run deploy
 ```
+
+Every push to `main` is tested, built and deployed to Cloudflare Pages by the [CI workflow](.github/workflows/ci.yml). Pull requests run the tests and the build only.
 
 ## License
 
