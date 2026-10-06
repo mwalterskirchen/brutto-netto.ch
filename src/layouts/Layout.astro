@@ -26,7 +26,8 @@ const canonicalUrl = new URL(canonicalPath, Astro.site);
     <meta name="description" content={description} />
     <meta name="author" content="Maximilian Walterskirchen" />
     <meta name="robots" content={noindex ? 'noindex' : 'index, follow'} />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     {!noindex && <link rel="canonical" href={canonicalUrl} />}
     <link rel="sitemap" href="/sitemap-index.xml" />
     <slot name="head" />
