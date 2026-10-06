@@ -1,7 +1,9 @@
 ---
-const GITHUB_URL = 'https://github.com/mwalterskirchen/brutto-netto.ch';
+import FaqAccordion from './FaqAccordion';
+import { GITHUB_URL } from '../lib/links';
+
 const link = (text: string) =>
-  `<a href="${GITHUB_URL}" target="_blank" rel="noopener" class="link link-primary">${text}</a>`;
+  `<a href="${GITHUB_URL}" target="_blank" rel="noopener" class="font-heading underline underline-offset-4">${text}</a>`;
 
 // Answers are HTML; the FAQPage structured data uses the same answers as plain text.
 const faqs = [
@@ -51,18 +53,12 @@ const structuredData = {
 };
 ---
 
-<section class="max-w-4xl mx-auto mt-8 mb-8">
-  <h2 class="text-2xl font-bold mb-6 text-center">Häufig gestellte Fragen (FAQ)</h2>
-  <div class="space-y-4">
-    {faqs.map(({ question, answer }) => (
-      <details class="collapse collapse-plus bg-base-200">
-        <summary class="collapse-title text-lg font-medium">{question}</summary>
-        <div class="collapse-content">
-          <p class="pt-2" set:html={answer} />
-        </div>
-      </details>
-    ))}
-  </div>
+<section class="mt-20 max-w-4xl" aria-labelledby="faq-title">
+  <h2 id="faq-title" class="mb-8 text-2xl sm:text-3xl">
+    Häufige Fragen
+  </h2>
+  <!-- client:load so the closed answers get hidden="until-found" for find-in-page right away. -->
+  <FaqAccordion client:load items={faqs} />
 </section>
 
 <script type="application/ld+json" is:inline set:html={JSON.stringify(structuredData)} />

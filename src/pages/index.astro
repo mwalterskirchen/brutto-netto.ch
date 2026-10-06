@@ -3,6 +3,45 @@ import Layout from '../layouts/Layout.astro';
 import Calculator from '../components/Calculator';
 import Faq from '../components/Faq.astro';
 
+const explainers = [
+  {
+    name: 'Nettolohn',
+    title: 'Was auf Ihr Konto kommt',
+    text: 'Der Bruttolohn minus alle Abzüge, vor Steuern.',
+    color: 'bg-note-20',
+  },
+  {
+    name: 'AHV/IV/EO',
+    title: 'Alters- und Hinterlassenenversicherung, Invalidenversicherung, Erwerbsersatzordnung',
+    text: '5.3% des ganzen Bruttolohns.',
+    color: 'bg-note-100',
+  },
+  {
+    name: 'BVG',
+    title: 'Pensionskasse, 2. Säule',
+    text: 'Je nach Alter 0.8% bis 10.1% des koordinierten Lohns. Unter einem Jahreslohn von CHF 22’680 fällt der Beitrag weg.',
+    color: 'bg-note-1000',
+  },
+  {
+    name: 'ALV',
+    title: 'Arbeitslosenversicherung',
+    text: '1.1% bis zu einem Jahreslohn von CHF 148’200, auf dem Teil darüber 0.5%.',
+    color: 'bg-note-10',
+  },
+  {
+    name: 'NBU',
+    title: 'Nichtberufsunfallversicherung',
+    text: 'Rund 1%. Der genaue Satz hängt von der Versicherung Ihres Arbeitgebers ab.',
+    color: 'bg-note-50',
+  },
+  {
+    name: 'KTG',
+    title: 'Krankentaggeldversicherung',
+    text: 'Rund 0.8%. Optional, nur wenn Ihr Arbeitgeber einen Teil der Prämie vom Lohn abzieht.',
+    color: 'bg-note-200',
+  },
+];
+
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
@@ -75,40 +114,59 @@ const structuredData = {
     <script type="application/ld+json" is:inline set:html={JSON.stringify(structuredData)} />
   </Fragment>
 
+  <div class="mb-8 sm:mb-10">
+    <h1 class="text-4xl leading-[1.02] font-extrabold sm:text-5xl lg:text-[3.5rem]">
+      Brutto Netto Rechner Schweiz 2026
+    </h1>
+    <div class="mt-5 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between lg:gap-8">
+      <p class="max-w-[62ch] text-lg leading-relaxed text-pretty">
+        Wie viel bleibt von Ihrem Lohn? Der Rechner zieht AHV, IV, EO, ALV, BVG, NBU und KTG ab. Er
+        läuft nur in Ihrem Browser, Ihre Angaben verlassen das Gerät nie.
+      </p>
+      <ul class="flex shrink-0 flex-wrap gap-2 text-sm font-heading" aria-label="Eigenschaften">
+        <li class="rounded-base border-2 border-border bg-secondary-background px-3 py-1">
+          100% privat
+        </li>
+        <li class="rounded-base border-2 border-border bg-secondary-background px-3 py-1">
+          Open Source
+        </li>
+        <li class="rounded-base border-2 border-border bg-secondary-background px-3 py-1">
+          Kostenlos
+        </li>
+      </ul>
+    </div>
+  </div>
+
   <Calculator client:load />
 
-  <section class="max-w-4xl mx-auto mt-12 mb-8 prose prose-sm">
-    <h2 class="text-2xl font-bold mb-4">So funktioniert's</h2>
-    <p>
-      Der <strong>Brutto Netto Rechner</strong> ist ein kostenloser Online-Lohnrechner und
-      Gehaltsrechner für die Schweiz. Er berechnet präzise Ihren <strong>Nettolohn</strong> aus dem
-      <strong>Bruttolohn</strong> unter Berücksichtigung aller relevanten Schweizer Abzüge.
+  <section class="mt-20" aria-labelledby="deductions-title">
+    <h2 id="deductions-title" class="text-2xl sm:text-3xl">
+      So rechnet der Rechner
+    </h2>
+    <p class="mt-4 max-w-[68ch] text-lg leading-relaxed">
+      Der Rechner zieht vom <strong>Bruttolohn</strong> alle Sozialversicherungsbeiträge ab, die
+      Arbeitnehmende in der Schweiz bezahlen. Was übrig bleibt, ist der <strong>Nettolohn</strong>.
+      Die Beitragssätze sind in allen Kantonen gleich, ob Zürich, Basel, Bern, Luzern, St.Gallen
+      oder Genf. Steuern zieht der Rechner nicht ab, weil sie je nach Kanton und Gemeinde anders
+      sind.
     </p>
-    <p>Unser Rechner berücksichtigt folgende Sozialversicherungsabzüge:</p>
-    <ul class="list-disc pl-6 mb-4">
-      <li>
-        <strong>AHV/IV/EO</strong> (Alters- und Hinterlassenenversicherung, Invalidenversicherung,
-        Erwerbsersatzordnung)
-      </li>
-      <li>
-        <strong>ALV</strong> (Arbeitslosenversicherung)
-      </li>
-      <li>
-        <strong>BVG</strong> (Pensionskasse / 2. Säule)
-      </li>
-      <li>
-        <strong>NBU</strong> (Nichtberufsunfallversicherung)
-      </li>
-      <li>
-        <strong>KTG</strong> (Krankentaggeldversicherung, optional)
-      </li>
-    </ul>
-    <p>
-      Ideal für Arbeitnehmer/innen und Arbeitgeber/innen in allen Kantonen der Schweiz. Ob Zürich,
-      Basel, Bern, Luzern, St.Gallen oder Genf. Der Lohnrechner ist aktuell für das Jahr
-      <strong>2026</strong>
-      und verwendet die neuesten Beitragssätze.
-    </p>
+    <dl class="mt-8 grid overflow-hidden rounded-base border-2 border-border bg-secondary-background shadow-shadow sm:grid-cols-2 lg:grid-cols-3">
+      {explainers.map(({ name, title, text, color }) => (
+        <div class="-mt-[2px] -ml-[2px] border-t-2 border-l-2 border-border p-5">
+          <dt class="flex items-center gap-3">
+            <span
+              aria-hidden="true"
+              class={`size-4 shrink-0 rounded-[3px] border-2 border-border ${color}`}
+            />
+            <span class="font-wide text-lg font-bold">{name}</span>
+          </dt>
+          <dd class="mt-2">
+            <span class="block font-heading">{title}</span>
+            <span class="mt-1 block text-foreground/75 leading-relaxed">{text}</span>
+          </dd>
+        </div>
+      ))}
+    </dl>
   </section>
 
   <Faq />
